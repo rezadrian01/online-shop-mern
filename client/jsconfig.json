@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@mods/*": ["./src/components/Modules/*"],
+      "@layouts/*": ["./src/components/Layouts/*"]
+    }
+  }
+}
