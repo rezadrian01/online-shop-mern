@@ -5,7 +5,7 @@ const DefaultLayout = ({ children }) => {
     return (
         <>
             <Navbar />
-            <div>{children}</div>
+            <div className='w-full px-2 md:px-10 lg:px-24'>{children}</div>
         </>
     )
 }
