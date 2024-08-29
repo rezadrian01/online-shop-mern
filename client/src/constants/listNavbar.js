@@ -1,4 +1,4 @@
-const listNavbar = [
+const LIST_NAVBAR = [
     {
         title: 'Home',
         url: '/'
@@ -17,4 +17,4 @@ const listNavbar = [
     }
 ]
 
-export { listNavbar }
+export { LIST_NAVBAR }
