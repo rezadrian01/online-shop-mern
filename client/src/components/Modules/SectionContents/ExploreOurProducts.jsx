@@ -18,7 +18,7 @@ const ExploreOurProducts = () => {
     }
     if (isPending) return <DefaultLoading />
     return (
-        <SectionLayout btnOnClick={handleClick} btnCaption="View All Products" btnPosition='bottom' title='Our Products' subtitle='Explore Our Products' >
+        <SectionLayout borderBottom={false} btnOnClick={handleClick} btnCaption="View All Products" btnPosition='bottom' title='Our Products' subtitle='Explore Our Products' >
             <ProductList max={8} products={products} rows={2} />
         </SectionLayout>
     )

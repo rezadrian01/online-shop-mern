@@ -6,6 +6,7 @@ import BrowseByCategory from '@mods/SectionContents/BrowseByCategory';
 import BestSellingProducts from '@mods/SectionContents/BestSellingProducts';
 import DefaultBanner from '@mods/SectionContents/DefaultBanner';
 import ExploreOurProducts from '@mods/SectionContents/ExploreOurProducts';
+import NewArrival from '@/components/Modules/SectionContents/NewArrival';
 
 const Landing = () => {
     return <DefaultLayout>
@@ -16,6 +17,7 @@ const Landing = () => {
             <BestSellingProducts />
             <DefaultBanner />
             <ExploreOurProducts />
+            <NewArrival />
         </div>
 
     </DefaultLayout>
