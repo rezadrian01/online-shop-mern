@@ -11,7 +11,7 @@ const Navbar = () => {
     const [isOpenModal, setIsOpenModal] = useState(false);
     return (
         <header>
-            <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-24 text-center items-center'>
+            <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-14 xl:px-24 text-center items-center'>
                 <div className='col-span-1 lg:col-span-2 text-left'>
                     <h3 className='font-bold text-xl lg:text-3xl'>Exclusive</h3>
                 </div>
@@ -20,7 +20,7 @@ const Navbar = () => {
                         return <li className='text-base lg:text-lg' key={index}><Link to={item.url}>{item.title}</Link></li>
                     }} />
                 </ul>
-                <div className='col-span-3 grid grid-cols-9 gap-4'>
+                <div className='col-span-3 grid grid-cols-9 gap-4 justify-'>
                     <div className='relative col-span-7'>
                         <input className='w-full bg-slate-100 py-2 px-3 outline-none' placeholder='Search...' />
                         <button>
