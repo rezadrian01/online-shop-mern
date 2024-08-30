@@ -1,29 +1,32 @@
 import SectionLayout from '@/components/Layouts/SectionLayouts'
 import { apiInstance } from '@/utils/apiInstance'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ProductList from '../ProductList'
 import DefaultLoading from '../Loading/DefaultLoading'
 
-const TodaySelections = () => {
+const BestSellingProducts = () => {
     const { data: products, isPending, isError, error } = useQuery({
-        queryKey: ['today-selections'],
+        queryKey: ['best-selling-products'],
         queryFn: async () => {
             const products = await apiInstance.get('products');
-            return products.data
+            return products.data.products
         }
     })
+
     const handleClick = () => {
-        console.log('Today Selection Clicked');
+        console.log("Best Selling Products Clicked")
     }
+
     if (isPending) {
         return <DefaultLoading />
     }
-    return <SectionLayout btnCaption="View All Products" title={`Today's`} subtitle="Today Selections" btnPosition='bottom' btnOnClick={handleClick}>
-        <ProductList products={products.products} rows={1} max={4} />
-    </SectionLayout>
 
+    return (
+        <SectionLayout btnOnClick={handleClick} borderBottom={false} btnPosition='right' btnCaption="View All" title="This Month" subtitle="Best Selling Products">
+            <ProductList max={4} products={products} />
+        </SectionLayout>
+    )
 }
 
-export default TodaySelections
+export default BestSellingProducts

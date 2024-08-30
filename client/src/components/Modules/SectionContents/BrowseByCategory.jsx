@@ -35,7 +35,7 @@ const OutlineCategory = ({ selectedCategoryIndex, index }) => {
             caption = 'Gaming'
             break;
     }
-    return <div style={{ backgroundColor: index === selectedCategoryIndex ? '#ef4444' : null }} className='border-2 border-stone-200 rounded p-10 flex flex-col justify-center items-center gap-5 transition-all duration-150'>
+    return <div style={{ backgroundColor: index === selectedCategoryIndex ? '#ef4444' : null, borderWidth: index === selectedCategoryIndex ? '0px' : '2px' }} className='border-stone-200 rounded p-10 flex flex-col justify-center items-center gap-5 transition-all duration-150'>
         {content}
         <h4 style={{ color: index === selectedCategoryIndex ? 'white' : 'black' }}>{caption}</h4>
     </div>

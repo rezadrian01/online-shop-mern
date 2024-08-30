@@ -3,6 +3,7 @@ import DefaultLayout from '@layouts/DefaultLayouts'
 import JumbotronLanding from '@/components/Modules/JumbotronLanding';
 import TodaySelections from '@/components/Modules/SectionContents/TodaySelections';
 import BrowseByCategory from '@/components/Modules/SectionContents/BrowseByCategory';
+import BestSellingProducts from '@/components/Modules/SectionContents/BestSellingProducts';
 
 const Landing = () => {
     return <DefaultLayout>
@@ -10,6 +11,8 @@ const Landing = () => {
             <JumbotronLanding />
             <TodaySelections />
             <BrowseByCategory />
+            <BestSellingProducts />
+            <p>Class</p>
         </div>
 
     </DefaultLayout>

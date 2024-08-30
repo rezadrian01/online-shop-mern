@@ -1,8 +1,8 @@
 import React from 'react'
 
-const SectionLayout = ({ title, subtitle, btn = true, btnCaption, btnPosition = 'bottom', btnOutline = false, btnOnClick, children }) => {
+const SectionLayout = ({ borderBottom = true, title, subtitle, btn = true, btnCaption, btnPosition = 'bottom', btnOutline = false, btnOnClick, children }) => {
     return (
-        <section className='border-b-2 border-b-stone-200 pb-16'>
+        <section className='border-b-stone-200 pb-16' style={{ borderBottomWidth: borderBottom ? '2px' : '0px' }}>
             <div className='flex flex-col gap-4'>
                 <div className='flex flex-col gap-2'>
                     <div className='flex gap-4 items-center mb-6'>
