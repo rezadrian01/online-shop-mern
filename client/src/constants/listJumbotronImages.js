@@ -1,22 +1,22 @@
 const LIST_JUMBOTRON_IMAGES_1200_400 = [
     {
-        src: 'https://dummyimage.com/1200x400',
+        src: 'https://dummyimage.com/1200x550',
         alt: 'a dummy photo'
     },
     {
-        src: 'https://dummyimage.com/1200x400/fcba03',
+        src: 'https://dummyimage.com/1200x550/fcba03',
         alt: 'a dummy photo'
     },
     {
-        src: 'https://dummyimage.com/1200x400/a1fc03',
+        src: 'https://dummyimage.com/1200x550/a1fc03',
         alt: 'a dummy photo'
     },
     {
-        src: 'https://dummyimage.com/1200x400/03fcd7',
+        src: 'https://dummyimage.com/1200x550/03fcd7',
         alt: 'a dummy photo'
     },
     {
-        src: 'https://dummyimage.com/1200x400/fc897c',
+        src: 'https://dummyimage.com/1200x550/fc897c',
         alt: 'a dummy photo'
     }
 ]

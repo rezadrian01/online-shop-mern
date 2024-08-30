@@ -10,7 +10,7 @@ const ProductItem = ({ product }) => {
         <>
             <div className='flex flex-col gap-1 group cursor-pointer'>
                 <div className='relative'>
-                    <img className='bg-stone-100' src={product.images[0]} alt={product.title} loading='lazy' />
+                    <img className='bg-stone-100 w-full aspect-square object-cover' src={product.images[0]} alt={product.title} loading='lazy' />
                     {/* Discount? */}
                     {true && <div className='absolute left-2 top-2 bg-red-500 text-white py-[.2rem] px-[.4rem] text-[.7rem] rounded'>
                         <p>-35%</p>

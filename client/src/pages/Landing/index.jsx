@@ -1,9 +1,11 @@
 import React from 'react'
 import DefaultLayout from '@layouts/DefaultLayouts'
-import JumbotronLanding from '@/components/Modules/JumbotronLanding';
-import TodaySelections from '@/components/Modules/SectionContents/TodaySelections';
-import BrowseByCategory from '@/components/Modules/SectionContents/BrowseByCategory';
-import BestSellingProducts from '@/components/Modules/SectionContents/BestSellingProducts';
+import JumbotronLanding from '@mods/JumbotronLanding';
+import TodaySelections from '@mods/SectionContents/TodaySelections';
+import BrowseByCategory from '@mods/SectionContents/BrowseByCategory';
+import BestSellingProducts from '@mods/SectionContents/BestSellingProducts';
+import DefaultBanner from '@mods/SectionContents/DefaultBanner';
+import ExploreOurProducts from '@mods/SectionContents/ExploreOurProducts';
 
 const Landing = () => {
     return <DefaultLayout>
@@ -12,7 +14,8 @@ const Landing = () => {
             <TodaySelections />
             <BrowseByCategory />
             <BestSellingProducts />
-            <p>Class</p>
+            <DefaultBanner />
+            <ExploreOurProducts />
         </div>
 
     </DefaultLayout>
