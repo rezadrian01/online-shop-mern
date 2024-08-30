@@ -45,7 +45,7 @@ const BrowseByCategory = () => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
     return (
         <SectionLayout title="Categories" subtitle="Browse By Category" btn={false}>
-            <div className='grid grid-cols-6 gap-10'>
+            <div className='grid grid-cols-2 lg:grid-cols-6 gap-2 lg:gap-10'>
                 {Array.from({ length: 6 }, (_, index) => {
                     return <button key={index} onClick={() => setSelectedCategoryIndex(index)}>
                         <OutlineCategory index={index} selectedCategoryIndex={selectedCategoryIndex} />

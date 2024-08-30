@@ -4,7 +4,7 @@ import EachUtils from '@/utils/EachUtils'
 
 const ProductList = ({ products, rows, max }) => {
     return (
-        <div className='grid grid-cols-4 gap-14'>
+        <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-14'>
             <EachUtils of={products} render={(item, index) => {
                 if (index >= max) return
                 return <ProductItem key={index} product={item} />

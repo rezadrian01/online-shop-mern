@@ -8,7 +8,7 @@ const ProductItem = ({ product }) => {
     const totalStars = Math.round(product.rating)
     return (
         <>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-1 group cursor-pointer'>
                 <div className='relative'>
                     <img className='bg-stone-100' src={product.images[0]} alt={product.title} loading='lazy' />
                     {/* Discount? */}
@@ -23,6 +23,9 @@ const ProductItem = ({ product }) => {
                             <IoEyeOutline size={20} />
                         </button>
                     </div>
+                    <button className='absolute hidden group-hover:block duration-200 hover:bg-black/90 bg-black/70 text-white py-1 md:py-2 text-center bottom-0 w-full'>
+                        Add To Cart
+                    </button>
                 </div>
                 <div className='flex flex-col gap-2'>
                     <h3>{product.title}</h3>
