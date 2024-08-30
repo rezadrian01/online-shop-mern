@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
 import EachUtils from '@/utils/EachUtils'
 
-const Carousel = ({ width = 800, images }) => {
+const Carousel = ({ width = 1200, images }) => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const next = () => {
         setCurrentImageIndex(prevState => {
@@ -17,15 +17,15 @@ const Carousel = ({ width = 800, images }) => {
     }
 
     useEffect(() => {
-        const timer = setInterval(next, 4000)
+        const timer = setInterval(next, 5000)
         return () => clearInterval(timer)
     }, [])
 
     return (
-        <div>
+        <>
             <div
                 className="flex relative overflow-hidden w-full mx-auto"
-                style={{ width }}
+                style={{ maxWidth: width }}
             >
                 {/* <div className='absolute z-10 flex w-full h-full items-center justify-between'>
                     <button onClick={prev}>
@@ -44,7 +44,7 @@ const Carousel = ({ width = 800, images }) => {
                     return <img key={index} className="transition-transform duration-300 object-cover" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }} src={item.src} alt={item.alt} />
                 }} />
             </div>
-        </div>
+        </>
     )
 }
 
