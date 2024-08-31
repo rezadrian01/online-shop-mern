@@ -10,8 +10,7 @@ import NewArrival from '@/components/Modules/SectionContents/NewArrival';
 import FeatureSection from '@/components/Modules/SectionContents/FeatureSection';
 
 const Landing = () => {
-    return <DefaultLayout>
-        <div className='flex flex-col gap-32'>
+    return <div className='flex flex-col gap-32'>
             <JumbotronLanding />
             <TodaySelections />
             <BrowseByCategory />
@@ -20,17 +19,8 @@ const Landing = () => {
             <ExploreOurProducts />
             <NewArrival />
             <FeatureSection />
-        </div>
-
-    </DefaultLayout>
+    </div>
 }
 
 export default Landing;
 
-{/* <h3 className='text-2xl font-semibold mb-2'>{item.title}</h3>
-            <p className='mb-2 text-lg font-thin'>{item.desc}</p>
-            <button className='border-b border-b-stone-400 font-bold text-lg flex items-center gap-1 pr-1 hover:gap-2 hover:pr-0 transition-all'>Shop Now
-                <span>
-                    <GoArrowRight />
-                </span>
-            </button> */}

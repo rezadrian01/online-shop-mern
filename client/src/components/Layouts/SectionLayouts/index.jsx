@@ -1,3 +1,4 @@
+import DefaultButton from '@/components/Modules/Buttons/DefaultButton'
 import React from 'react'
 
 const SectionLayout = ({ borderBottom = true, title, subtitle, btn = true, btnCaption, btnPosition = 'bottom', btnOutline = false, btnOnClick, children, isTitle = true, lastContent = false }) => {
@@ -11,14 +12,14 @@ const SectionLayout = ({ borderBottom = true, title, subtitle, btn = true, btnCa
                     </div>
                     <div className='flex justify-between items-center mb-6'>
                         <h3 className='font-semibold text-3xl'>{subtitle}</h3>
-                        {btnPosition === 'right' && btn && <button onClick={btnOnClick} className='bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded'>{btnCaption}</button>}
+                        {btnPosition === 'right' && btn && <DefaultButton onClick={btnOnClick} className='bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded'>{btnCaption}</DefaultButton>}
                     </div>
                 </div>}
                 <div>
                     {children}
                 </div>
                 {btnPosition === 'bottom' && btn && <div className='mx-auto mt-10'>
-                    <button onClick={btnOnClick} className='bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded'>{btnCaption}</button>
+                    <DefaultButton onClick={btnOnClick} className='bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded'>{btnCaption}</DefaultButton>
                 </div>
                 }
             </div>
