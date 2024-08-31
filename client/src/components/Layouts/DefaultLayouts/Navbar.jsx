@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import { GoSearch, GoHeart, GoPerson } from 'react-icons/go'
 import { IoCartOutline, IoMenuOutline } from "react-icons/io5";
@@ -14,6 +14,9 @@ import EachUtils from '@/utils/EachUtils'
 import { LIST_DROPDOWN_ACCOUNT_MENU } from '@/constants/listDropdownMenu';
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const isHomepage = location.pathname === '/';
     const [isOpenDropdownAccount, setIsOpenDropdownAccount] = useState(false);
 
     const toggleDropdownAccount = () => {
@@ -22,7 +25,7 @@ const Navbar = () => {
 
     return (
         <header>
-            <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-14 xl:px-24 text-center items-center'>
+            <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-14 xl:px-24 text-center items-center' style={{ marginBottom: isHomepage ? '0rem' : '5rem' }}>
                 <div className='col-span-1 lg:col-span-2 text-left'>
                     <h3 className='font-bold text-xl lg:text-3xl'>Exclusive</h3>
                 </div>
@@ -40,8 +43,12 @@ const Navbar = () => {
                     </div>
                     <div className='col-span-3 flex gap-4 md:gap-10 lg:gap-4 mx-auto'>
                         <button className='relative'>
-                            <GoHeart size={23} className='mx-auto' />
-                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>
+                            <GoHeart
+                                size={23}
+                                className='mx-auto'
+                                onClick={() => navigate('/wishlist')}
+                            />
+                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>4</div>
                         </button>
                         <button className='relative'>
                             <IoCartOutline size={23} className='mx-auto' />

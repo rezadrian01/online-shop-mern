@@ -3,8 +3,8 @@ import { apiInstance } from '@/utils/apiInstance'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useEffect } from 'react'
-import ProductList from '../ProductList'
-import DefaultLoading from '../Loading/DefaultLoading'
+import ProductList from '../../ProductList'
+import DefaultLoading from '../../Loading/DefaultLoading'
 
 const TodaySelections = () => {
     const { data: products, isPending, isError, error } = useQuery({

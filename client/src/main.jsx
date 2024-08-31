@@ -12,6 +12,7 @@ import Signup from './pages/Signup/index.jsx'
 import Signin from './pages/Signin/index.jsx'
 
 import './index.css'
+import Wishlist from './pages/Wishlist'
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: '/signin',
         element: <Signin />
+      },
+      {
+        path: '/wishlist',
+        element: <Wishlist />
       }
     ]
   }

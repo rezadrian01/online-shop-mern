@@ -1,10 +1,10 @@
 import React from 'react'
 import { FaStar } from "react-icons/fa";
-import { IoEyeOutline } from "react-icons/io5";
+import { IoCartOutline, IoEyeOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
 
 
-const ProductItem = ({ product }) => {
+const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) => {
     const totalStars = Math.round(product.rating)
     return (
         <>
@@ -23,14 +23,20 @@ const ProductItem = ({ product }) => {
                             <IoEyeOutline size={20} />
                         </button>
                     </div>
-                    <button className='absolute hidden group-hover:block duration-200 hover:bg-black/90 bg-black/70 text-white py-1 md:py-2 text-center bottom-0 w-full'>
+
+                    {!visibleAddToCart && <button className='absolute hidden group-hover:block duration-200 hover:bg-black/90 bg-black/70 text-white py-1 md:py-2 text-center bottom-0 w-full'>
                         Add To Cart
-                    </button>
+                    </button>}
+                    {visibleAddToCart && <button className='absolute hover:bg-black/90 bg-black/70 text-white py-1 md:py-2 text-center bottom-0 w-full flex gap-4 justify-center items-center'>
+                        <span><IoCartOutline size={20} /></span>
+                        Add To Cart
+                    </button>}
+
                 </div>
                 <div className='flex flex-col gap-2'>
                     <h3>{product.title}</h3>
                     <p className='text-red-500 font-semibold'>${product.price}</p>
-                    <div className='relative flex gap-1'>
+                    {!wishlist && <div className='relative flex gap-1'>
                         {Array.from({ length: 5 }, (_, index) => {
                             return <FaStar
                                 key={index}
@@ -39,7 +45,7 @@ const ProductItem = ({ product }) => {
                             />
                         })}
                         <p>({product.reviews.length})</p>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </>

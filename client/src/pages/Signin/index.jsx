@@ -21,7 +21,7 @@ const Signin = () => {
     }
 
     return (
-        <div className='mt-14 mb-24'>
+        <div className='mb-24'>
             <div className='grid grid-cols-10'>
                 <div className='hidden md:block col-span-6'>
                     <img className='' src={authImg} />

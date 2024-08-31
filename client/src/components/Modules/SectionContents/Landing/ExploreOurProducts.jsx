@@ -2,8 +2,8 @@ import SectionLayout from '@/components/Layouts/SectionLayouts'
 import { apiInstance } from '@/utils/apiInstance'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import DefaultLoading from '../Loading/DefaultLoading'
-import ProductList from '../ProductList'
+import DefaultLoading from '../../Loading/DefaultLoading'
+import ProductList from '../../ProductList'
 
 const ExploreOurProducts = () => {
     const { data: products, isPending, isError, error } = useQuery({
