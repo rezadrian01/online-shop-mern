@@ -13,6 +13,7 @@ import Signin from './pages/Signin/index.jsx'
 
 import './index.css'
 import Wishlist from './pages/Wishlist'
+import Checkout from './pages/Checkout'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: '/wishlist',
         element: <Wishlist />
+      },
+      {
+        path: '/checkout',
+        element: <Checkout />
       }
     ]
   }
