@@ -17,7 +17,7 @@ const RecommendationSection = () => {
 
 
   return (
-    <SectionLayout title="Just For You" btnPosition='right' btnOutline btnCaption="See All">
+    <SectionLayout lastContent borderBottom={false} title="Just For You" btnPosition='right' btnOutline btnCaption="See All">
       {isPending && <DefaultLoading />}
       {!isPending && <ProductList visibleAddToCart products={products} max={8} />}
     </SectionLayout>

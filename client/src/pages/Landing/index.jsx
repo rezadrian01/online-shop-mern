@@ -8,6 +8,7 @@ import DefaultBanner from '@mods/SectionContents/Landing/DefaultBanner';
 import ExploreOurProducts from '@mods/SectionContents/Landing/ExploreOurProducts';
 import NewArrival from '@mods/SectionContents/Landing/NewArrival';
 import FeatureSection from '@mods/SectionContents/Landing/FeatureSection';
+import { json } from 'react-router-dom';
 
 const Landing = () => {
     return <div className='flex flex-col gap-32'>
