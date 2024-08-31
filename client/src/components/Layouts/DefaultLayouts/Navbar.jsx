@@ -1,14 +1,25 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { GoSearch, GoHeart } from 'react-icons/go'
+
+import { GoSearch, GoHeart, GoPerson } from 'react-icons/go'
 import { IoCartOutline, IoMenuOutline } from "react-icons/io5";
+import { VscAccount } from "react-icons/vsc";
+import { FiShoppingBag } from "react-icons/fi";
+import { MdOutlineCancel } from "react-icons/md";
+import { FaRegStar } from "react-icons/fa";
+import { CiLogout } from "react-icons/ci";
 
 import { LIST_NAVBAR } from '@/constants/listNavbar'
 import EachUtils from '@/utils/EachUtils'
-import SlideinModal from '@/components/Modules/SlideinModal';
+import { LIST_DROPDOWN_ACCOUNT_MENU } from '@/constants/listDropdownMenu';
 
 const Navbar = () => {
-    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [isOpenDropdownAccount, setIsOpenDropdownAccount] = useState(false);
+
+    const toggleDropdownAccount = () => {
+        setIsOpenDropdownAccount(!isOpenDropdownAccount)
+    }
+
     return (
         <header>
             <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-14 xl:px-24 text-center items-center'>
@@ -20,19 +31,38 @@ const Navbar = () => {
                         return <li className='text-base lg:text-lg' key={index}><Link to={item.url}>{item.title}</Link></li>
                     }} />
                 </ul>
-                <div className='col-span-3 grid grid-cols-9 gap-4 pr-0'>
-                    <div className='relative col-span-7'>
+                <div className='col-span-3 grid grid-cols-9 gap-4 pr-0 items-center'>
+                    <div className='relative col-span-6'>
                         <input className='w-full bg-slate-100 py-2 px-3 outline-none' placeholder='Search...' />
                         <button>
                             <GoSearch className='absolute right-2 bottom-[.6rem] cursor-pointer' size={20} />
                         </button>
                     </div>
-                    <button className='col-span-1'>
-                        <GoHeart size={20} className='mx-auto' />
-                    </button>
-                    <button className='col-span-1'>
-                        <IoCartOutline size={20} className='mx-auto' />
-                    </button>
+                    <div className='col-span-3 flex gap-4 md:gap-10 lg:gap-4 mx-auto'>
+                        <button className='relative'>
+                            <GoHeart size={23} className='mx-auto' />
+                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>
+                        </button>
+                        <button className='relative'>
+                            <IoCartOutline size={23} className='mx-auto' />
+                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>
+                        </button>
+                        {/* render conditionaly */}
+                        <div className='relative'>
+                            <button onClick={toggleDropdownAccount}>
+                                <VscAccount size={23} />
+                            </button>
+                            {isOpenDropdownAccount && <>
+                                <div onClick={() => setIsOpenDropdownAccount(false)} className='fixed inset-0 z-20' />
+                                <div className='absolute bg-gray-900/30 backdrop-blur-md text-slate-50 z-20 right-0 top-10 p-2 rounded flex flex-col gap-4 w-[14rem] text-sm'>
+                                    <EachUtils of={LIST_DROPDOWN_ACCOUNT_MENU} render={(item, index) => {
+                                        return <DropdownAccountContent index={index} item={item} />
+                                    }} />
+                                </div>
+                            </>
+                            }
+                        </div>
+                    </div>
                 </div>
                 {/* mobile screen */}
                 <ul className='col-span-3 flex lg:hidden gap-2 lg:gap-16 justify-evenly mt-2'>
@@ -41,10 +71,33 @@ const Navbar = () => {
                     }} />
                 </ul>
             </nav>
-            {isOpenModal && <SlideinModal
-                setIsOpenModal={setIsOpenModal} isOpenModal={isOpenModal} />}
         </header>
     )
 }
 
 export default Navbar
+
+const DropdownAccountContent = ({ item, index }) => {
+    let logo;
+    switch (index) {
+        case 0:
+            logo = <GoPerson size={20} />
+            break;
+        case 1:
+            logo = <FiShoppingBag size={20} />
+            break;
+        case 2:
+            logo = <MdOutlineCancel size={20} />
+            break;
+        case 3:
+            logo = <FaRegStar size={20} />
+            break;
+        case 4:
+            logo = <CiLogout size={20} />
+            break;
+    }
+    return <div className='flex gap-5 items-center'>
+        {logo}
+        <a href={item.url}>{item.title}</a>
+    </div>
+}

@@ -27,7 +27,7 @@ const Signup = () => {
                 <div className='col-span-6'>
                     <img className='' src={authImg} />
                 </div>
-                <div className='col-span-4 flex justify-center items-center '>
+                <div className='col-span-4 flex justify-center items-center'>
                     <div className='flex flex-col gap-4 w-4/6 mx-auto '>
                         <h1 className='text-3xl tracking-wider font-semibold'>Create an account</h1>
                         <p className='mb-6'>Enter your details bellow</p>
