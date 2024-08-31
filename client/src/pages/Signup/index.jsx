@@ -6,6 +6,7 @@ import DefaultButton from '@mods/Buttons/DefaultButton'
 import OutlineButton from '@mods/Buttons/OutlineButton'
 
 import googleLogo from '@/assets/auth/googleLogo.svg';
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
 
@@ -34,7 +35,7 @@ const Signup = () => {
                             <div className='flex flex-col gap-12'>
                                 <AuthInput name="name" id='name' label='Name' />
                                 <AuthInput name='email' id='email' label='Email' />
-                                <AuthInput name='password' id='password' label='password' />
+                                <AuthInput name='password' id='password' label='Password' />
                                 <div className='flex flex-col gap-4'>
                                     <DefaultButton type="submit" >Create Account</DefaultButton>
                                     <OutlineButton type="button" onClick={handleGoogleAuth}>
@@ -43,7 +44,7 @@ const Signup = () => {
                                     </OutlineButton>
                                 </div>
                                 <div className='text-center'>
-                                    <p>Already have account? <a className='underline' href="/signin">Log in</a></p>
+                                    <p>Already have account? <Link className='underline' to="/signin">Log in</Link></p>
                                 </div>
                             </div>
                         </form>
