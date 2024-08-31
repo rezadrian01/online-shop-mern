@@ -42,7 +42,7 @@ const OutlineCategory = ({ selectedCategoryIndex, index }) => {
 }
 
 const BrowseByCategory = () => {
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(-1);
     return (
         <SectionLayout title="Categories" subtitle="Browse By Category" btn={false}>
             <div className='grid grid-cols-2 lg:grid-cols-6 gap-2 lg:gap-10'>

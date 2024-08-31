@@ -54,7 +54,7 @@ const Navbar = () => {
                             </button>
                             {isOpenDropdownAccount && <>
                                 <div onClick={() => setIsOpenDropdownAccount(false)} className='fixed inset-0 z-20' />
-                                <div className='absolute bg-gray-900/30 backdrop-blur-md text-slate-50 z-20 right-0 top-10 p-2 rounded flex flex-col gap-4 w-[14rem] text-sm'>
+                                <div className='absolute bg-gray-900/30 backdrop-blur-md text-slate-50 z-20 right-0 top-10 py-3 px-4 rounded flex flex-col gap-4 w-[14rem] text-sm'>
                                     <EachUtils of={LIST_DROPDOWN_ACCOUNT_MENU} render={(item, index) => {
                                         return <DropdownAccountContent index={index} item={item} />
                                     }} />

@@ -1,6 +1,6 @@
 const DEFAULT_BANNER_IMG = [
     {
-        src: 'https://dummyimage.com/1200x400',
+        src: 'https://dummyimage.com/1200x500',
         alt: 'a dummy photo'
     },
 ]

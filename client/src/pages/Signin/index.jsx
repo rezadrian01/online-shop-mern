@@ -23,11 +23,11 @@ const Signin = () => {
     return (
         <div className='mt-14 mb-24'>
             <div className='grid grid-cols-10'>
-                <div className='col-span-6'>
+                <div className='hidden md:block col-span-6'>
                     <img className='' src={authImg} />
                 </div>
-                <div className='col-span-4 flex justify-center items-center '>
-                    <div className='flex flex-col gap-4 w-4/6 mx-auto '>
+                <div className='col-span-10 md:col-span-4 flex justify-center items-center '>
+                    <div className='flex flex-col gap-4 w-5/6 md:w-4/6 mx-auto '>
                         <h1 className='text-3xl tracking-wider font-semibold'>Log in to Exclusive</h1>
                         <p className='mb-6'>Enter your details bellow</p>
                         <form onSubmit={handleSubmit}>
