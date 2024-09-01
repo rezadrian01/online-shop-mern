@@ -6,13 +6,14 @@ import { GoShieldCheck } from "react-icons/go";
 import SectionLayout from '@/components/Layouts/SectionLayouts';
 
 const Benefit = () => {
+    const size = 30;
     return (
         <SectionLayout lastContent isTitle={false} btn={false} borderBottom={false}>
             <div className='flex justify-center gap-10 md:gap-16 flex-col lg:flex-row lg:gap-36 text-center'>
                 <div className='flex flex-col gap-1 justify-center items-center'>
                     <div className='bg-gray-300 rounded-full w-[80px] h-[80px] flex justify-center items-center mx-auto mb-4' >
-                        <div className='bg-stone-950 rounded-full p-2 ' >
-                            <TbTruckDelivery color='white' size={40} />
+                        <div className='bg-stone-950 rounded-full p-3 ' >
+                            <TbTruckDelivery color='white' size={size} />
                         </div>
                     </div>
                     <h2 className='uppercase font-semibold text-lg lg:text-xl'>FREE AND FAST DELIVERY</h2>
@@ -20,8 +21,8 @@ const Benefit = () => {
                 </div>
                 <div className='flex flex-col gap-1 justify-center items-center'>
                     <div className='bg-gray-300 rounded-full w-[80px] h-[80px] flex justify-center items-center mx-auto mb-4' >
-                        <div className='bg-stone-950 rounded-full p-2 ' >
-                            <BsHeadset color='white' size={40} />
+                        <div className='bg-stone-950 rounded-full p-3 ' >
+                            <BsHeadset color='white' size={size} />
                         </div>
                     </div>
                     <h2 className='uppercase font-semibold text-lg lg:text-xl'>24/7 CUSTOMER SERVICE</h2>
@@ -29,8 +30,8 @@ const Benefit = () => {
                 </div>
                 <div className='flex flex-col gap-1 justify-center items-center'>
                     <div className='bg-gray-300 rounded-full w-[80px] h-[80px] flex justify-center items-center mx-auto mb-4' >
-                        <div className='bg-stone-950 rounded-full p-2 ' >
-                            <GoShieldCheck color='white' size={40} />
+                        <div className='bg-stone-950 rounded-full p-3 ' >
+                            <GoShieldCheck color='white' size={size} />
                         </div>
                     </div>
                     <h2 className='uppercase font-semibold text-lg lg:text-xl'>MONEY BACK GUARANTEE</h2>

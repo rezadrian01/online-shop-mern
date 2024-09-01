@@ -1,7 +1,7 @@
 const LIST_FOOTER_1 = [
     {
         title: "Support",
-        contents: ["1452 Chance Rue, North Kattie", "exclusive@gmail.com", "08738-9848-22331"]
+        contents: ["1452 Chance Rue, North Kattie", "support@exclusive.com", "08738-9848-22331"]
     }
 ]
 

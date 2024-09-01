@@ -15,6 +15,7 @@ import './index.css'
 import Wishlist from './pages/Wishlist'
 import Checkout from './pages/Checkout'
 import About from './pages/About'
+import Contact from './pages/Contact'
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/about',
         element: <About />
+      },
+      {
+        path: '/contact',
+        element: <Contact />
       }
     ]
   }

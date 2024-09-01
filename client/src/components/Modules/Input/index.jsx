@@ -3,9 +3,9 @@ import React from 'react'
 const DefaultInput = ({ label, id, placeholder = '', name, textarea = false, required = true, width = '100%', ...props }) => {
     return (
         <div className='flex flex-col gap-2' style={{ width: width }}>
-            <label className='text-stone-400 text-lg' htmlFor={id}>{label}{required && <span className='text-red-300'>*</span>}</label>
+            <label className='text-stone-400 text-lg' htmlFor={id}>{label}{required && label && <span className='text-red-300'>*</span>}</label>
             {!textarea && <input className='outline-none bg-stone-100 rounded py-2 px-4 text-stone-500 text-lg ' id={id} name={name} placeholder={placeholder} required={required} {...props} />}
-            {textarea && <textarea className='outline-none bg-stone-100 rounded py-2 px-4 text-stone-500 text-lg ' id={id} name={name} placeholder={placeholder} required={required} {...props} />}
+            {textarea && <textarea className='outline-none bg-stone-100 rounded py-2 px-4 text-stone-500 text-lg h-full min-h-[10rem]' id={id} name={name} placeholder={placeholder} required={required} {...props} />}
         </div>
     )
 }
@@ -29,12 +29,6 @@ export const Radio = ({ label, id, name }) => {
         <input name={name} id={id} type='radio' />
         <label htmlFor={id}>{label}</label>
     </div>
-}
-
-export const DoubleRadioInput = ({ label, id, name }) => {
-    return <>
-
-    </>
 }
 
 
