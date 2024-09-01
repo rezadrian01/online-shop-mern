@@ -32,15 +32,16 @@ const Employes = () => {
 
 const SocialMedia = ({ index, url }) => {
     let logo;
+    const size = 20;
     switch (index) {
         case 0:
-            logo = <FaXTwitter />
+            logo = <FaXTwitter size={size} />
             break;
         case 1:
-            logo = <FaInstagram />
+            logo = <FaInstagram size={size} />
             break;
         case 2:
-            logo = <RiLinkedinLine />
+            logo = <RiLinkedinLine size={size} />
             break;
     }
     return <a href={url}>

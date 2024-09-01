@@ -27,7 +27,6 @@ const StatsSection = () => {
 
 const StatsLogo = ({ index }) => {
     let logo;
-    let content;
     const logoSize = 50;
     switch (index) {
         case 0:

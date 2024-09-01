@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion';
 
 import { GoSearch, GoHeart, GoPerson } from 'react-icons/go'
 import { IoCartOutline, IoMenuOutline } from "react-icons/io5";
@@ -31,7 +32,9 @@ const Navbar = () => {
                 </div>
                 <ul className=' lg:col-span-7 hidden lg:flex gap-2 lg:gap-16 justify-center'>
                     <EachUtils of={LIST_NAVBAR} render={(item, index) => {
-                        return <li className='text-base lg:text-lg' key={index}><Link to={item.url}>{item.title}</Link></li>
+                        return <li className={`text-base lg:text-lg relative pb-1`} key={index}><Link to={item.url}>{item.title}</Link>
+                            {location.pathname === item.url && <motion.span layoutId='navbar-menu' className='absolute inset-x-0 border border-b-stone-800 bottom-0' />}
+                        </li>
                     }} />
                 </ul>
                 <div className='col-span-3 grid grid-cols-9 gap-4 pr-0 items-center'>
@@ -74,7 +77,9 @@ const Navbar = () => {
                 {/* mobile screen */}
                 <ul className='col-span-3 flex lg:hidden gap-2 lg:gap-16 justify-evenly mt-2'>
                     <EachUtils of={LIST_NAVBAR} render={(item, index) => {
-                        return <li className='text-base lg:text-lg' key={index}><Link to={item.url}>{item.title}</Link></li>
+                        return <li className={`text-base lg:text-lg relative pb-1`} key={index}><Link to={item.url}>{item.title}</Link>
+                            {location.pathname === item.url && <motion.span layoutId='navbar-menu-mobile' className='absolute inset-x-0 border border-b-stone-800 bottom-0' />}
+                        </li>
                     }} />
                 </ul>
             </nav>
