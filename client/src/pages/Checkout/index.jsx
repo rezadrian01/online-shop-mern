@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiInstance } from '@/utils/apiInstance'
 import EachUtils from '@/utils/EachUtils'
 import DefaultButton from '@/components/Modules/Buttons/DefaultButton'
+import DefaultLoading from '@/components/Modules/Loading/DefaultLoading'
 
 const Checkout = () => {
     const { data: products, isPending, isError, error } = useQuery({
@@ -22,22 +23,34 @@ const Checkout = () => {
         shipping = 0;
         totalAmount = roundedPrice + shipping
     }
-    // console.log(products)
+
+    const applyCouponClick = () => {
+        console.log('Apply Coupon Clicked')
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const fd = new FormData(event.target);
+        const data = Object.fromEntries(fd.entries());
+        console.log(data);
+    }
+
     return (
+        <form onSubmit={handleSubmit}>
         <div className='pb-20'>
-            <h3 className='text-4xl mb-14'>Billing Detail</h3>
-            <div className='grid grid-cols-2'>
-                <div className='flex flex-col gap-8  pr-4'>
-                    <DefaultInput width='80%' type='text' id='name' label='First Name' name='name' />
-                    <DefaultInput width='80%' type='text' id='company' label='Company Name' name='company' required={false} />
-                    <DefaultInput width='80%' type='text' id='streetAddress' label='Street Address' name='streetAddress' />
-                    <DefaultInput width='80%' type='text' id='apartement' label='Apartment, floor, etc. (optional)' name='apartement' required={false} />
-                    <DefaultInput width='80%' type='text' id='city' label='Town/City' name='city' />
-                    <DefaultInput width='80%' type='text' id='phone' label='Phone Number' name='phone' />
-                    <DefaultInput width='80%' type='email' id='email' label='Email Adress' name='email' />
+                <h3 className='text-4xl pl-10 md:pl-0 mb-14'>Billing Detail</h3>
+                <div className='grid grid-cols-1 md:grid-cols-2 px-10 md:px-0'>
+                    <div className='flex flex-col gap-8 pr-4  pb-6 border-b border-b-stone-600 md:border-b-0 md-pb-0 w-full md:w-[80%]'>
+                        <DefaultInput type='text' id='name' label='First Name' name='name' />
+                        <DefaultInput type='text' id='company' label='Company Name' name='company' required={false} />
+                        <DefaultInput type='text' id='streetAddress' label='Street Address' name='streetAddress' />
+                        <DefaultInput type='text' id='apartement' label='Apartment, floor, etc. (optional)' name='apartement' required={false} />
+                        <DefaultInput type='text' id='city' label='Town/City' name='city' />
+                        <DefaultInput type='text' id='phone' label='Phone Number' name='phone' />
+                        <DefaultInput type='email' id='email' label='Email Adress' name='email' />
                     <Checkbox name='saveInformation' id='saveInformation' label='Save this information for faster check-out next-time' />
                 </div>
-                {!isPending && <div className='flex flex-col gap-4 py-6 px-16 w-full font-semibold'>
+                    {!isPending && <div className='flex flex-col gap-4 py-6 lg:px-16 mx-auto  w-full font-semibold'>
                     <div className='max-h-[70vh] overflow-auto px-2'>
                         <EachUtils of={products} render={(item, index) => {
                             return <ProductItem product={item} key={index} />
@@ -55,8 +68,8 @@ const Checkout = () => {
                             <p>{shipping || 'Free'}</p>
                         </div>
                         <div className='flex justify-between'>
-                            <h3>Total: </h3>
-                            <p>${totalAmount}</p>
+                                <h3>Total: </h3>
+                                <p>${totalAmount}</p>
                         </div>
                     </div>
 
@@ -67,14 +80,22 @@ const Checkout = () => {
                         </div>
                         <Radio id='cod' label='Cash on delivery' />
                         <div className='flex gap-4 justify-between my-2'>
-                            <input type='text' className='outline-none border border-stone-600 rounded py-2 px-4 uppercase font-normal' placeholder='Coupon Code' />
-                            <DefaultButton width='80%'>Apply Coupon</DefaultButton>
-                        </div>
-                        <DefaultButton width='50%'>Place Order</DefaultButton>
+                                <input type='text' className='outline-none border border-stone-600 rounded py-2 px-4 uppercase font-normal w-full' placeholder='Coupon Code' />
+                                <div className='w-[40%] text-center text-wrap'>
+                                    <DefaultButton onClick={applyCouponClick} width='100%'>Apply Coupon</DefaultButton>
+                                </div>
+                            </div>
+                            <DefaultButton type='submit' width='50%'>Place Order</DefaultButton>
                     </div>
                 </div>}
+                    {isPending &&
+                        <div className='mt-20'>
+                            <DefaultLoading />
+                        </div>
+                    }
             </div>
         </div>
+        </form>
     )
 }
 
