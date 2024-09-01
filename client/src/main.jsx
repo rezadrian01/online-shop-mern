@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 
 import { queryClient } from './utils/query'
+import './index.css'
+
 import DefaultLayout from '@layouts/DefaultLayouts'
 
 import Error from './pages/Error'
 import Landing from './pages/Landing/index.jsx'
 import Signup from './pages/Signup/index.jsx'
 import Signin from './pages/Signin/index.jsx'
-
-import './index.css'
 import Wishlist from './pages/Wishlist'
 import Checkout from './pages/Checkout'
 import About from './pages/About'

@@ -28,7 +28,9 @@ const Navbar = () => {
         <header>
             <nav className='grid grid-cols-3 lg:grid-cols-12 gap-2 w-full pt-8 pb-4 border-b-2 border-b-stone-200 px-2 md:px-10 lg:px-14 xl:px-24 text-center items-center' style={{ marginBottom: isHomepage ? '0rem' : '4rem' }}>
                 <div className='col-span-1 lg:col-span-2 text-left'>
+                    <Link to='/'>
                     <h3 className='font-bold text-xl lg:text-3xl'>Exclusive</h3>
+                    </Link>
                 </div>
                 <ul className=' lg:col-span-7 hidden lg:flex gap-2 lg:gap-16 justify-center'>
                     <EachUtils of={LIST_NAVBAR} render={(item, index) => {

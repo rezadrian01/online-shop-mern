@@ -14,7 +14,7 @@ const WishlistSection = () => {
         }
     })
     return (
-        <SectionLayout subtitle="Wishlist (4)" btnOutline btnCaption="Move All To Bag" borderBottom={true} btnPosition='right'>
+        <SectionLayout subtitle="Wishlist (4)" btnOutline btnCaption="Move All To Cart" borderBottom={true} btnPosition='right'>
             {isPending && <DefaultLoading />}
             {!isPending && <ProductList visibleAddToCart wishlist products={products} max={4} />}
         </SectionLayout>

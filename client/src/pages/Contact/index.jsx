@@ -41,7 +41,7 @@ const Contact = () => {
                         <div className='flex flex-col gap-4'>
                             <div className='flex gap-4 mb-2 items-center'>
                                 <div className='bg-red-500 rounded-full p-4'>
-                                    <LuPhone color='white' size={sizeLogo} />
+                                    <CiMail color='white' size={sizeLogo} />
                                 </div>
                                 <h3 className='text-xl font-semibold'>{MESSAGE_CONTACT[0].title}</h3>
                             </div>
