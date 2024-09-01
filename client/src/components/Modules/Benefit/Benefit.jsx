@@ -5,7 +5,7 @@ import { BsHeadset } from "react-icons/bs";
 import { GoShieldCheck } from "react-icons/go";
 import SectionLayout from '@/components/Layouts/SectionLayouts';
 
-const FeatureSection = () => {
+const Benefit = () => {
     return (
         <SectionLayout lastContent isTitle={false} btn={false} borderBottom={false}>
             <div className='flex justify-center gap-10 md:gap-16 flex-col lg:flex-row lg:gap-36 text-center'>
@@ -41,4 +41,4 @@ const FeatureSection = () => {
     )
 }
 
-export default FeatureSection
+export default Benefit

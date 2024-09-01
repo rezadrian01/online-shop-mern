@@ -14,6 +14,7 @@ import Signin from './pages/Signin/index.jsx'
 import './index.css'
 import Wishlist from './pages/Wishlist'
 import Checkout from './pages/Checkout'
+import About from './pages/About'
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: '/checkout',
         element: <Checkout />
+      },
+      {
+        path: '/about',
+        element: <About />
       }
     ]
   }

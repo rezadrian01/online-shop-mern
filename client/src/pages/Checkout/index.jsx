@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import DefaultInput, { Checkbox, Radio } from '@mods/Input'
 import { useQuery } from '@tanstack/react-query'
 import { apiInstance } from '@/utils/apiInstance'
@@ -7,6 +7,8 @@ import DefaultButton from '@/components/Modules/Buttons/DefaultButton'
 import DefaultLoading from '@/components/Modules/Loading/DefaultLoading'
 
 const Checkout = () => {
+    const couponInput = useRef(null);
+
     const { data: products, isPending, isError, error } = useQuery({
         queryKey: ['checkout-products'],
         queryFn: async () => {
@@ -21,11 +23,11 @@ const Checkout = () => {
         const subTotal = products.reduce((prev, product) => prev + product.price, 0);
         roundedPrice = subTotal.toFixed(2);
         shipping = 0;
-        totalAmount = roundedPrice + shipping
+        totalAmount = roundedPrice + shipping;
     }
 
     const applyCouponClick = () => {
-        console.log('Apply Coupon Clicked')
+        console.log(couponInput.current.value)
     }
 
     const handleSubmit = (event) => {
@@ -38,7 +40,7 @@ const Checkout = () => {
     return (
         <form onSubmit={handleSubmit}>
         <div className='pb-20'>
-                <h3 className='text-4xl pl-10 md:pl-0 mb-14'>Billing Detail</h3>
+                <h3 className='text-4xl pl-10 md:pl-0 mb-14'>Billing Details</h3>
                 <div className='grid grid-cols-1 md:grid-cols-2 px-10 md:px-0'>
                     <div className='flex flex-col gap-8 pr-4  pb-6 border-b border-b-stone-600 md:border-b-0 md-pb-0 w-full md:w-[80%]'>
                         <DefaultInput type='text' id='name' label='First Name' name='name' />
@@ -78,9 +80,9 @@ const Checkout = () => {
                         <div className='flex justify-between'>
                             <Radio id='bank' label='Bank' name='bank' />
                         </div>
-                        <Radio id='cod' label='Cash on delivery' />
+                            <Radio id='cod' label='Cash on delivery' name='cash-on-delivery' />
                         <div className='flex gap-4 justify-between my-2'>
-                                <input type='text' className='outline-none border border-stone-600 rounded py-2 px-4 uppercase font-normal w-full' placeholder='Coupon Code' />
+                                <input ref={couponInput} type='text' className='outline-none border border-stone-600 rounded py-2 px-4 uppercase font-normal w-full' placeholder='Coupon Code' />
                                 <div className='w-[40%] text-center text-wrap'>
                                     <DefaultButton onClick={applyCouponClick} width='100%'>Apply Coupon</DefaultButton>
                                 </div>
