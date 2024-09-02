@@ -1,52 +1,75 @@
 import React from 'react'
 
-import { motion } from 'framer-motion'
+import { animate, motion } from 'framer-motion'
+import { createPortal } from 'react-dom';
 
-const DefaultModal = ({ setClose, animate = false, opacity = 1, slideDirection = 'right', children }) => {
+const DefaultModal = ({ setClose, isClose, animate = false, opacity = 1, missing = true, slideDirection = 'right', directionValue = null, children }) => {
 
-    const { xValue, yValue } = getDirectionValue(slideDirection)
+    const { xValue, yValue } = getDirectionValue(slideDirection, directionValue);
     return (
-        <>
-            <div onClick={setClose} className='bg-black/30 fixed inset-0' />
+        createPortal(<>
+            <div onClick={setClose} className='bg-black/30 fixed z-10 inset-0' />
 
             {!animate && <dialog className='z-30' open onClose={setClose}>
                 {children}
             </dialog>}
 
-            {animate && <motion.dialog className='z-30'
+            {animate &&
+                <motion.dialog
                 variants={{
                     initial: { y: yValue, x: xValue, opacity },
-                    animate: { y: yValue, x: xValue, opacity: 1 },
+                        animate: { y: 0, x: 0, opacity: 1 },
                     exit: { y: yValue, x: xValue, opacity }
                 }}
-                initial='intial'
-                animate='animate'
-                exit='exit'
-                open onClose={setClose}>
-                {children}
-            </motion.dialog>}
-        </>
+                    initial={missing && 'initial'}
+                    animate={(missing && 'animate') || (isClose ? 'initial' : 'animate')}
+                    exit={missing && 'exit'}
+                    open
+                    onClose={setClose}
+                    className='bg-white p-4 fixed z-10'
+                >
+                    {children}
+                </motion.dialog>}
+        </>, document.getElementById('modal-root'))
     )
 }
 
-const getDirectionValue = (slideDirection) => {
+const SidebarModal = ({ children, slideDirection = 'right', directionValue = -400, setClose, isClose, openDirectionValue = -200, overlay = true }) => {
+    const { xValue } = getDirectionValue(slideDirection, directionValue)
+    return <>
+        {overlay && <div className='fixed z-10 inset-0 bg-black/30' onClick={setClose} style={{ display: isClose ? 'none' : 'block' }} />}
+        <motion.dialog
+            variants={{
+                animate: { x: isClose ? xValue : openDirectionValue, transition: { ease: 'easeInOut' } }
+            }}
+            animate='animate'
+            open
+            className='bg-white p-4 z-10'
+        >
+            {children}
+        </motion.dialog>
+    </>
+}
+
+const getDirectionValue = (slideDirection, directionValue) => {
     let xValue = 0;
     let yValue = 0;
     switch (slideDirection) {
         case 'right':
-            xValue = 100;
+            xValue = directionValue || -100;
             break;
         case 'left':
-            xValue = -100
+            xValue = directionValue || 100
             break;
         case 'top':
-            yValue = 100;
+            yValue = directionValue || 100;
             break;
         case 'bottom':
-            yValue = -100;
+            yValue = directionValue || -100;
             break;
     }
     return { xValue, yValue }
 }
 
 export default DefaultModal
+export { SidebarModal }

@@ -1,22 +1,27 @@
 import React, { useState } from 'react'
 
-import AddressBook from '@/components/Modules/SectionContents/MyAccount/AddressBook'
-import MyCancellations from '@/components/Modules/SectionContents/MyAccount/MyCancellations'
-import MyPayment from '@/components/Modules/SectionContents/MyAccount/MyPayment'
-import MyProfile from '@/components/Modules/SectionContents/MyAccount/MyProfile'
-import MyReturns from '@/components/Modules/SectionContents/MyAccount/MyReturns'
-import Options from '@/components/Modules/SectionContents/MyAccount/Options'
+import AddressBook from '@mods/SectionContents/MyAccount/AddressBook'
+import MyCancellations from '@mods/SectionContents/MyAccount/MyCancellations'
+import MyPayment from '@mods/SectionContents/MyAccount/MyPayment'
+import MyProfile from '@mods/SectionContents/MyAccount/MyProfile'
+import MyReturns from '@mods/SectionContents/MyAccount/MyReturns'
+import Options from '@mods/SectionContents/MyAccount/Options'
 import { LIST_ACCOUNT_NAVIGATION } from '@/constants/listMyAccountNavigation'
 import EachUtils from '@/utils/EachUtils'
+import { AnimatePresence } from 'framer-motion'
+import DefaultModal, { SidebarModal } from '@/components/Modules/Modal'
 
 const MyAccount = () => {
     const [selectedMenu, setSelectedMenu] = useState('My Profile')
+    const [isModalOpen, setIsModalOpen] = useState(false);
     return (
         <div className='relative grid grid-cols-8 gap-x-4 gap-y-20 pt-6 lg:pt-10 pb-24'>
-
-            <div className='fixed min-h-screen block lg:hidden'>
-                testing
+            {/*<div className='flex justify-end col-span-8'>
+                <button onClick={() => setIsModalOpen(true)}>Open Modal</button>
             </div>
+             <SidebarModal isClose={!isModalOpen} setClose={() => setIsModalOpen(false)} overlay={true}>
+                <p className='min-h-screen'>Modal Testing</p>
+            </SidebarModal> */}
 
             <div className='hidden lg:block col-span-2 '>
                 <Navigation selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
