@@ -47,15 +47,14 @@ const Navbar = () => {
                         </button>
                     </div>
                     <div className='col-span-3 flex gap-4 md:gap-10 lg:gap-4 mx-auto'>
-                        <button className='relative'>
+                        <button onClick={() => navigate('/wishlist')} className='relative'>
                             <GoHeart
                                 size={23}
                                 className='mx-auto'
-                                onClick={() => navigate('/wishlist')}
                             />
                             <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>4</div>
                         </button>
-                        <button className='relative'>
+                        <button onClick={() => navigate('/cart')} className='relative'>
                             <IoCartOutline size={23} className='mx-auto' />
                             <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>
                         </button>

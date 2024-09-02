@@ -17,6 +17,7 @@ import Checkout from './pages/Checkout'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import MyAccount from './pages/MyAccount'
+import Cart from './pages/Cart'
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/my-account',
         element: <MyAccount />
+      },
+      {
+        path: '/cart',
+        element: <Cart />
       }
     ]
   }
