@@ -12,7 +12,7 @@ const Checkout = () => {
     const { data: products, isPending, isError, error } = useQuery({
         queryKey: ['checkout-products'],
         queryFn: async () => {
-            const products = await apiInstance.get('products?limit=3&skip=10&select=title,price,images');
+            const products = await apiInstance.get('products?limit=3&skip=40&select=title,price,images');
             return products.data.products
         }
     })

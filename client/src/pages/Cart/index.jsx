@@ -1,11 +1,14 @@
-import DefaultButton from '@/components/Modules/Buttons/DefaultButton'
-import DefaultLoading from '@/components/Modules/Loading/DefaultLoading'
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+
+import DefaultButton from '@mods/Buttons/DefaultButton'
+import DefaultLoading from '@mods/Loading/DefaultLoading'
 import { apiInstance } from '@/utils/apiInstance'
 import EachUtils from '@/utils/EachUtils'
-import { useQuery } from '@tanstack/react-query'
-import React from 'react'
 
 const Cart = () => {
+    const navigate = useNavigate();
     const { data: products, isPending, isError, error } = useQuery({
         queryKey: ['cart'],
         queryFn: async () => {
@@ -82,9 +85,9 @@ const Cart = () => {
 
                 </div>
 
-                <div className='flex justify-end w-full'>
+                {!isPending && <div className='flex justify-end w-full'>
                     <div className='gap-4 border-2 w-full md:w-1/2 lg:w-1/4 border-stone-700 p-6 rounded'>
-                        {!isPending && <div className='w-full'>
+                        <div className='w-full'>
                             <h3 className='font-semibold text-xl mb-6'>Cart Total</h3>
                             <div className='flex flex-col gap-4 font-semibold'>
                                 <div className='w-full flex justify-between border-b border-b-stone-700 pb-4'>
@@ -99,12 +102,12 @@ const Cart = () => {
                                     <h4 className=''>Total: </h4>
                                     ${subTotal + shipping}
                                 </div>
-                                <DefaultButton>Procees To Checkout</DefaultButton>
+                                <DefaultButton onClick={() => navigate('/checkout')}>Procees To Checkout</DefaultButton>
                             </div>
                         </div>
-                        }
+
                     </div>
-                </div>
+                </div>}
             </div>
         </>
     )

@@ -2,13 +2,15 @@ import React from 'react'
 import { FaStar } from "react-icons/fa";
 import { IoCartOutline, IoEyeOutline } from "react-icons/io5";
 import { IoMdHeartEmpty } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 
 const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) => {
+    const navigate = useNavigate();
     const totalStars = Math.round(product.rating)
     return (
         <>
-            <div className='flex flex-col gap-1 group cursor-pointer'>
+            <div onClick={() => navigate(`/product/${product.id}`)} className='flex flex-col gap-1 group cursor-pointer'>
                 <div className='relative'>
                     <img className='bg-stone-100 w-full aspect-square object-cover' src={product.images[0]} alt={product.title} loading='lazy' />
                     {/* Discount? */}
