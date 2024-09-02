@@ -1,7 +1,7 @@
 const LIST_DROPDOWN_ACCOUNT_MENU = [
     {
         title: "Manage My Account",
-        url: '/'
+        url: '/my-account'
     },
     {
         title: "My Order",

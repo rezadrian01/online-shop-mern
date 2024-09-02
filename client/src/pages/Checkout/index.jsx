@@ -50,7 +50,7 @@ const Checkout = () => {
                         <DefaultInput type='text' id='city' label='Town/City' name='city' />
                         <DefaultInput type='text' id='phone' label='Phone Number' name='phone' />
                         <DefaultInput type='email' id='email' label='Email Adress' name='email' />
-                    <Checkbox name='saveInformation' id='saveInformation' label='Save this information for faster check-out next-time' />
+                        <Checkbox value={true} name='saveInformation' id='saveInformation' label='Save this information for faster check-out next-time' />
                 </div>
                     {!isPending && <div className='flex flex-col gap-4 py-6 lg:px-16 mx-auto  w-full font-semibold'>
                     <div className='max-h-[70vh] overflow-auto px-2'>
@@ -78,9 +78,9 @@ const Checkout = () => {
                     {/* Payment */}
                     <div className='flex flex-col gap-3'>
                         <div className='flex justify-between'>
-                            <Radio id='bank' label='Bank' name='bank' />
+                                <Radio value='bank' id='bank' label='Bank' name='paymentOptions' />
                         </div>
-                            <Radio id='cod' label='Cash on delivery' name='cash-on-delivery' />
+                            <Radio value='cashOnDelivery' id='cod' label='Cash on delivery' name='paymentOptions' />
                         <div className='flex gap-4 justify-between my-2'>
                                 <input ref={couponInput} type='text' className='outline-none border border-stone-600 rounded py-2 px-4 uppercase font-normal w-full' placeholder='Coupon Code' />
                                 <div className='w-[40%] text-center text-wrap'>
