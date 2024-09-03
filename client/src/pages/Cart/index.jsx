@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 
 import DefaultButton from '@mods/Buttons/DefaultButton'
@@ -48,7 +48,9 @@ const Cart = () => {
                                     <td className='p-4 '>
                                         <div className='flex items-center gap-2'>
                                             <img className='w-10 lg:w-24 aspect-square object-cover' src={product.images[0]} alt={product.title} />
-                                            <h4>{product.title}</h4>
+                                            <Link to={`/product/${product.id}`}>
+                                                <h4 className='font-semibold'>{product.title}</h4>
+                                            </Link>
                                         </div>
                                     </td>
                                     <td className='p-4 '>${product.price}</td>
@@ -61,6 +63,7 @@ const Cart = () => {
                         </tbody>
                     </table>
                 </div>
+
                 {/* mobile screen */}
                 <div className=' md:hidden w-full flex flex-col gap-4'>
                     {isPending && <DefaultLoading />}

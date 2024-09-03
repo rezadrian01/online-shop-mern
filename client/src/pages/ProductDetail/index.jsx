@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query';
 
@@ -42,6 +42,7 @@ const ProductDetail = () => {
     const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
     const [totalProduct, setTotalProduct] = useState(product?.quantity || 1);
 
+
     if (isPending) return <DefaultLoading />
 
     const images = genTempImgUrl();
@@ -52,9 +53,10 @@ const ProductDetail = () => {
 
     return (
         <div className='pb-20'>
-            <div className='grid grid-cols-8 gap-x-10 mb-32'>
+            <div className='grid grid-cols-8 gap-y-10 mb-32'>
+
                 {/* product images */}
-                <div className='col-span-1 max-h-[40rem] flex flex-col gap-4 overflow-auto'>
+                <div className='col-span-1 max-h-[40rem] hidden lg:flex flex-col gap-4 overflow-auto'>
                     <EachUtils of={images} render={(item, index) => {
                         return <div onClick={() => setSelectedImageIndex(index)} className='cursor-pointer bg-red-500 flex justify-center' key={index}>
                             <img className='w-3/4 aspect-square object-cover' src={item} alt={product.title} />
@@ -63,12 +65,23 @@ const ProductDetail = () => {
                 </div>
 
                 {/* product image */}
-                <div className='col-span-4 max-h-[40rem] bg-red-500 flex justify-center'>
+                <div className='col-span-8 lg:col-span-4 max-h-[40rem]  flex justify-center'>
                     <img className='h-full aspect-square object-cover' src={images[selectedImageIndex]} />
                 </div>
 
+                {/* product images mobile screen */}
+                <div className='col-span-8 block lg:hidden overflow-x-auto'>
+                    <div className='flex gap-2 flex-wrap'>
+                        <EachUtils of={images} render={(item, index) => {
+                            return <div onClick={() => setSelectedImageIndex(index)} className='cursor-pointer bg-red-500 flex justify-center' key={index}>
+                                <img className='h-20 aspect-square object-cover' src={item} alt={product.title} />
+                            </div>
+                        }} />
+                    </div>
+                </div>
+
                 {/* product description */}
-                <div className='col-span-3 max-h-[40rem] bg-red-200 flex flex-col gap-3'>
+                <div className='col-span-8 lg:col-span-3 lg:ml-4 max-h-[40rem] flex flex-col gap-3'>
                     <h3 className='text-2xl font-semibold'>{product.title}</h3>
                     <div className='flex items-center gap-4  text-sm'>
                         <div className='flex items-center gap-1 pr-4 border-r border-r-stone-700'>
@@ -117,22 +130,22 @@ const ProductDetail = () => {
                         <div className='col-span-4'>
                             <button className='text-white bg-red-500 hover:bg-red-600 py-2 w-full rounded'>Buy Now</button>
                         </div>
-                        <button className='col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
+                        <button className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
                             <GoHeart size={20} />
                         </button>
-                        <button className='col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
+                        <button className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
                             <IoCartOutline size={20} />
                         </button>
                         <div className='col-span-8 border-[1.5px] border-stone-700 rounded flex flex-col font-semibold mt-6'>
-                            <div className='flex items-center gap-2 p-2'>
+                            <div className='flex items-center gap-4 p-2'>
                                 <TbTruckDelivery size={30} />
                                 <div className='flex flex-col'>
                                     <h5 className='text-xl'>Free Delivery</h5>
                                     <p className='underline text-sm'>Enter your postal code for Delivery Availability</p>
                                 </div>
                             </div>
-                            <div className='border-[1.5px] border-stone-700 my-4' />
-                            <div className='flex items-center gap-2 p-2'>
+                            <div className='border border-stone-700 my-4' />
+                            <div className='flex items-center gap-4 p-2'>
                                 <LuRefreshCcw size={30} />
                                 <div className='flex flex-col'>
                                     <h5 className='text-xl'>Return Delivery</h5>
