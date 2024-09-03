@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
 
-import { GoSearch, GoHeart, GoPerson } from 'react-icons/go'
+import { GoSearch, GoHeart, GoPerson } from 'react-icons/go';
 import { IoCartOutline, IoMenuOutline } from "react-icons/io5";
 import { VscAccount } from "react-icons/vsc";
 import { FiShoppingBag } from "react-icons/fi";

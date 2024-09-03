@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 
 
 const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) => {
-    const navigate = useNavigate();
-    const totalStars = Math.round(product.rating)
+    const navigate = useNavigate()
+    const ratings = product.reviews.reduce((prev, review) => prev + review.rating, 0);
+    const totalStars = Math.round(ratings / product.reviews.length);
     return (
         <>
             <div onClick={() => navigate(`/product/${product.id}`)} className='flex flex-col gap-1 group cursor-pointer'>
@@ -38,12 +39,12 @@ const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) =>
                 <div className='flex flex-col gap-2'>
                     <h3>{product.title}</h3>
                     <p className='text-red-500 font-semibold'>${product.price}</p>
-                    {!wishlist && <div className='relative flex gap-1'>
+                    {!wishlist && <div className='relative flex items-center gap-1'>
                         {Array.from({ length: 5 }, (_, index) => {
                             return <FaStar
                                 key={index}
                                 fill={index < totalStars ? "#FFAD33" : "#e4e5e9"}
-                                size={20}
+                                size={17}
                             />
                         })}
                         <p>({product.reviews.length})</p>

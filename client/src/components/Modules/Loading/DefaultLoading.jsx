@@ -1,7 +1,7 @@
 import React from 'react'
 
-const DefaultLoading = () => {
-    return <p className='text-center text-xl animate-pulse'>Loading...</p>
+const DefaultLoading = ({ text }) => {
+    return <p className='text-center text-xl animate-pulse'>{text || 'Loading...'}</p>
 }
 
 export default DefaultLoading

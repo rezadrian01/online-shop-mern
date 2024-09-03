@@ -18,6 +18,7 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import MyAccount from './pages/MyAccount'
 import Cart from './pages/Cart'
+import ProductDetail from './pages/ProductDetail'
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: '/cart',
         element: <Cart />
+      },
+      {
+        path: '/product/:productId',
+        element: <ProductDetail />
       }
     ]
   }
