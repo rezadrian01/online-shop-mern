@@ -10,6 +10,7 @@ import { LIST_ACCOUNT_NAVIGATION } from '@/constants/listMyAccountNavigation'
 import EachUtils from '@/utils/EachUtils'
 import { AnimatePresence } from 'framer-motion'
 import DefaultModal, { SidebarModal } from '@/components/Modules/Modal'
+import SellProduct from '@/components/Modules/SectionContents/MyAccount/SellProduct'
 
 const MyAccount = () => {
     const [selectedMenu, setSelectedMenu] = useState('My Profile')
@@ -70,6 +71,9 @@ const CurrentContent = ({ selectedMenu }) => {
             break;
         case 'My Cancellations':
             content = <MyCancellations />
+            break;
+        case 'Sell Product':
+            content = <SellProduct />
             break;
     }
     return <>

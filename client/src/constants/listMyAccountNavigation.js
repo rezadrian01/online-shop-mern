@@ -8,8 +8,8 @@ const LIST_ACCOUNT_NAVIGATION = [
         contents: ['My Returns', 'My Cancellations']
     },
     {
-        title: 'My Wishlist',
-        contents: ['']
+        title: 'Seller Options',
+        contents: ['Sell Product', 'My Products',]
     }
 ]
 
