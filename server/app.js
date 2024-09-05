@@ -11,6 +11,7 @@ const app = express();
 //router
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
+const wishlistRoutes = require('./routes/wishlist')
 
 //midleware
 const { jwtCheck } = require('./middleware/auth')
@@ -24,7 +25,8 @@ app.use(jwtCheck)
 
 
 app.use('/auth', authRoutes);
-app.use('/products', productRoutes)
+app.use('/products', productRoutes);
+app.use('/wishlist', wishlistRoutes)
 
 
 app.use((err, req, res, next) => {

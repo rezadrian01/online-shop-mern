@@ -8,7 +8,6 @@ exports.jwtCheck = async (req, res, next) => {
     try {
         const header = req.get('Authorization')?.split(" ")[1];
         if (!header) throw new Error();
-        let token;
         const decodedToken = await jwt.verify(header, process.env.JWT_SECRET_KEY);
         if (!decodedToken) throw new Error();
         req.userId = decodedToken.userId;
