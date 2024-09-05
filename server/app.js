@@ -29,6 +29,13 @@ app
 
 app.use('/auth', authRoutes);
 
+app.use((err, req, res, next) => {
+    const data = err?.data || [];
+    const message = err.message || "An error occurred";
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode).json({ success: false, message, data })
+})
+
 
 mongoose.connect(process.env.MONGODB_URI).then(result => {
     app.listen(process.env.PORT, () => {
