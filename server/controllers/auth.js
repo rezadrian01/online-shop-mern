@@ -39,13 +39,29 @@ exports.authGoogleCallback = async (req, res, next) => {
         auth: oAuth2Client
     })
     const { data } = await oauth2.userinfo.get();
-    res.status(200).json({ data })
+    const existingUser = await User.findOne({ email: data.email });
+    let currentUser;
+    if (!existingUser) {
+        const newUser = new User({
+            email: data.email,
+            name: data.name,
+        })
+        currentUser = await newUser.save();
+    } else {
+        currentUser = existingUser;
+    }
+    const token = jwt.sign({
+        userId: currentUser._id.toString(),
+        email: currentUser.email
+    }, process.env.JWT_SECRET_KEY, { expiresIn: process.env.JWT_EXPIRED })
+    // res.status(200).json({ success: true })
+    res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}&userId=${currentUser._id.toString()}`);
 }
 
 exports.signup = async (req, res, next) => {
     try {
         const { email, name, password, phone } = req.body;
-        // console.log(email, name, password, phone)
+
         const { validEmail, validName, validPassword, validPhone, errors } = signupValidation(email, name, password, phone);
         if (errors.email || errors.name || errors.password || errors.phone) {
             errorResponse('Validation Failed', 422, errors)

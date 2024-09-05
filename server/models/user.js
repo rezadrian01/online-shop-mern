@@ -15,8 +15,7 @@ const userSchema = new Schema({
     },
 
     phone: {
-        type: Number,
-        required: true
+        type: Number
     },
     products: [
         {
