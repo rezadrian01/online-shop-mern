@@ -34,6 +34,16 @@ const productSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
+    sizes: [
+        {
+            type: String
+        }
+    ],
+    colors: [
+        {
+            type: String
+        }
+    ],
     reviews: [{
         type: Schema.Types.ObjectId,
         ref: "Review"

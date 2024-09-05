@@ -7,6 +7,7 @@ import EachUtils from '@/utils/EachUtils';
 import DefaultButton from '../../Buttons/DefaultButton';
 import { useMutation } from '@tanstack/react-query';
 import { apiInstance } from '@/utils/apiInstance';
+import axios from 'axios';
 
 const SellProduct = () => {
     const categoryRef = useRef(null)
@@ -14,8 +15,10 @@ const SellProduct = () => {
     const [images, setImages] = useState([]);
 
     const { mutate: createPost } = useMutation({
-        mutationFn: () => {
-            apiInstance.post('')
+        mutationFn: (formData) => {
+            axios.post('http://localhost:8080/products/new', {
+                formData
+            })
         }
     })
 
@@ -49,14 +52,15 @@ const SellProduct = () => {
         event.preventDefault();
         const fd = new FormData(event.target);
         images.forEach(image => fd.append('images', image));
-        fd.append('category', categories)
-        const data = Object.fromEntries(fd.entries());
-        console.log(data);
-        // createPost()
+        categories.forEach(category => fd.append('categories', category))
+        // fd.append('categories', categories)
+        // const data = Object.fromEntries(fd.entries());
+        console.log([...fd]);
+        createPost(fd)
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType='multipart/form-data'>
             <h3>Sell Product</h3>
             <div className='grid grid-cols-4 gap-x-4 gap-y-6'>
                 <div className='col-span-2'>

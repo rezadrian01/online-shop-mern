@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const multer = require('multer');
 const { config } = require('dotenv');
 const cors = require('cors');
 
@@ -10,17 +9,9 @@ config();
 const app = express();
 
 //router
-const authRoutes = require('./routes/auth')
+const authRoutes = require('./routes/auth');
+const productRoutes = require('./routes/product');
 
-const fileStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'images');
-    },
-    filename: (req, file, cb) => {
-        const date = new Date().toLocaleDateString().replace(/:/g, '-');
-        cb(null, `${date}-${file.originalname}`)
-    }
-})
 
 app
     .use(cors())
@@ -28,6 +19,8 @@ app
 
 
 app.use('/auth', authRoutes);
+app.use('/products', productRoutes)
+
 
 app.use((err, req, res, next) => {
     const data = err?.data || [];
