@@ -5,6 +5,7 @@ let perRequest = 10;
 
 exports.getProducts = async (req, res, next) => {
     // let subRequest = req.query.subRequest;
+    console.log(req.userId, req.isAuth);
     try {
         const products = await Product.find();
         const totalProducts = await Product.find().countDocuments();
@@ -32,6 +33,15 @@ exports.newProduct = async (req, res, next) => {
         // const { title, price, quantity, description, categories, files } = req.body;
         console.log(req.body);
         console.log(req.files)
+
+    } catch (err) {
+        if (!err.statusCode) err.statusCode = 500;
+        next(err)
+    }
+}
+
+exports.updateProduct = async (req, res, next) => {
+    try {
 
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500;

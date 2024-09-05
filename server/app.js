@@ -12,10 +12,15 @@ const app = express();
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
 
+//midleware
+const { jwtCheck } = require('./middleware/auth')
+
 
 app
     .use(cors())
     .use(bodyParser.json());
+
+app.use(jwtCheck)
 
 
 app.use('/auth', authRoutes);
