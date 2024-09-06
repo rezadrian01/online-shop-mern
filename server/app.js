@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { config } = require('dotenv');
 const cors = require('cors');
+const path = require('path')
 
 config();
 
@@ -19,9 +20,9 @@ const { jwtCheck } = require('./middleware/auth')
 
 app
     .use(cors())
-    .use(bodyParser.json());
-
-app.use(jwtCheck)
+    .use(bodyParser.json())
+    .use(jwtCheck)
+// .use(express.static(path.join(__dirname, 'images')));
 
 
 app.use('/auth', authRoutes);

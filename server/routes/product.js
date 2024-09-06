@@ -6,6 +6,6 @@ const { editUser } = require('../middleware/auth');
 
 router.get('/', getProducts);
 router.get('/:productId', getProduct)
-router.post('/new', uploadMultiple, newProduct)
+router.post('/new', editUser, uploadMultiple, newProduct)
 
 module.exports = router;
