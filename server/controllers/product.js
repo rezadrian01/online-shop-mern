@@ -2,8 +2,50 @@ const validator = require('validator')
 const Product = require('../models/product');
 const User = require('../models/user')
 const { errorResponse } = require('../utils/error');
+const { deleteProductImage } = require('../utils/file')
 
 let perRequest = 10;
+
+exports.newProduct = async (req, res, next) => {
+    try {
+        const { title, description, price, categories, stock } = req.body;
+        const { validTitle, validDescription, validPrice, validCategories, validStock, errors } = createProductValidation(title, description, price, categories, stock)
+
+        if (!req.files) errorResponse("Image must be uploaded", 422);
+        if (errors.length > 0) errorResponse("Validation failed", 422, errors);
+
+        const existingUser = await User.findById(req.userId);
+        if (!existingUser) errorResponse('User not found', 404);
+
+        let images = []
+        req.files.forEach(image => {
+            images.push(image.path.replace(/\\/g, '/'))
+        })
+
+        const newProduct = new Product({
+            title: validTitle,
+            description: validDescription,
+            price: validPrice,
+            categories: validCategories,
+            images,
+            stock: validStock,
+            discount: req.body.discount || 0,
+            userId: existingUser,
+            sizes: req.body.sizes || [],
+            colors: req.body.colors || []
+        })
+
+        const createdProduct = await newProduct.save();
+        existingUser.products.push(createdProduct);
+        await existingUser.save();
+        res.status(201).json({ success: true, message: 'Success create product' });
+
+    } catch (err) {
+        if (!err.statusCode) err.statusCode = 500;
+        next(err)
+    }
+}
+
 
 exports.getProducts = async (req, res, next) => {
     // let subRequest = req.query.subRequest;
@@ -30,46 +72,6 @@ exports.getProduct = async (req, res, next) => {
     }
 }
 
-exports.newProduct = async (req, res, next) => {
-    try {
-        const { title, description, price, categories, stock } = req.body;
-        const { validTitle, validDescription, validPrice, validCategories, validStock, errors } = createProductValidation(title, description, price, categories, stock)
-
-        if (!req.files) errorResponse("Image must be uploaded", 422);
-        if (errors.length > 0) errorResponse("Validation failed", 422, errors);
-
-        const existingUser = await User.findById(req.userId);
-        if (!existingUser) errorResponse('User not found', 404);
-
-        let images = []
-        req.files.forEach(image => {
-            images.push(image.path.replace(/\\/g, '-'))
-        })
-        console.log(images);
-
-        const newProduct = new Product({
-            title: validTitle,
-            description: validDescription,
-            price: validPrice,
-            categories: validCategories,
-            images,
-            stock: validStock,
-            discount: req.body.discount || 0,
-            userId: existingUser,
-            sizes: req.body.sizes || [],
-            colors: req.body.colors || []
-        })
-
-        const createdProduct = await newProduct.save();
-        existingUser.products.push(createdProduct);
-        await existingUser.save();
-        res.status(201).json({ success: true, message: 'Success create product' });
-
-    } catch (err) {
-        if (!err.statusCode) err.statusCode = 500;
-        next(err)
-    }
-}
 
 exports.updateProduct = async (req, res, next) => {
     try {
@@ -80,13 +82,33 @@ exports.updateProduct = async (req, res, next) => {
     }
 }
 
+exports.deleteProduct = async (req, res, next) => {
+    try {
+        const productId = req.params.productId;
+        const existingProduct = await Product.findById(productId);
+        const existingUser = await User.findById(req.userId);
+        if (!existingProduct) errorResponse("Product not found", 404);
+        if (!existingUser) errorResponse("User not found", 404);
+
+        await Promise.all(existingProduct?.images?.map((image) => deleteProductImage(image, next)))
+
+        await Product.findByIdAndDelete(productId);
+        existingUser.products.pull(productId);
+        await existingUser.save();
+        res.status(200).json({ success: true, message: "Success delete product" })
+    } catch (err) {
+        if (!err.statusCode) err.statusCode = 500;
+        next(err)
+    }
+}
+
 
 const createProductValidation = (title, description, price, categories, stock) => {
     let errors = [];
-    const validTitle = !validator.isEmpty(title.trim())
-    const validDescription = !validator.isEmpty(description.trim());
-    const validPrice = !validator.isEmpty(price.trim())
-    const validStock = !validator.isEmpty(stock.trim())
+    const validTitle = !validator.isEmpty(title?.trim())
+    const validDescription = !validator.isEmpty(description?.trim());
+    const validPrice = !validator.isEmpty(price?.trim())
+    const validStock = !validator.isEmpty(stock?.trim())
 
     if (!validTitle) errors.push("Invalid title")
     if (!validDescription) errors.push('Invalid description')
@@ -102,4 +124,9 @@ const createProductValidation = (title, description, price, categories, stock) =
         validStock: stock,
         errors
     }
+}
+
+const updateProductValidation = () => {
+    const errors = [];
+
 }
