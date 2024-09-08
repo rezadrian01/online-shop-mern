@@ -9,7 +9,7 @@ let perRequest = 10;
 exports.newProduct = async (req, res, next) => {
     try {
         const { title, description, price, categories, stock } = req.body;
-        const { validTitle, validDescription, validPrice, validCategories, validStock, errors } = createProductValidation(title, description, price, categories, stock)
+        const { validTitle, validDescription, validPrice, validCategories, validStock, errors } = productValidation(title, description, price, categories, stock)
 
         if (!req.files) errorResponse("Image must be uploaded", 422);
         if (errors.length > 0) errorResponse("Validation failed", 422, errors);
@@ -75,6 +75,32 @@ exports.getProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
     try {
+        const { productId } = req.params
+        const existingProduct = await Product.findById(productId)
+        const existingUser = await User.findById(req.userId)
+        if (!existingUser) errorResponse("User not found")
+        if (!existingProduct) errorResponse("Product not found", 404)
+        if (existingProduct.userId.toString() !== req.userId.toString()) errorResponse("Access denied", 403)
+        const { title, description, price, categories, discount } = req.body;
+        const { validTitle, validDescription, validPrice, validCategories, errors } = productValidation(title, description, price, categories, null, true)
+        // console.log(errors)
+        if (errors.length > 0) errorResponse("Validation failed", 422, errors)
+
+        existingProduct.title = validTitle;
+        existingProduct.description = validDescription;
+        existingProduct.price = validPrice;
+        existingProduct.discount = discount ? validator.escape(discount) : 0;
+        existingProduct.categories = validCategories;
+        let images = []
+        if (req.files.length > 0) {
+            await Promise.all(existingProduct.images.map(image => deleteProductImage(image, next)))
+            req.files.forEach(file => {
+                images.push(file.path.replace(/\\/g, '/'))
+            })
+            existingProduct.images = images
+        }
+        await existingProduct.save()
+        res.status(200).json({ success: true, message: "Success update product" })
 
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500;
@@ -103,12 +129,12 @@ exports.deleteProduct = async (req, res, next) => {
 }
 
 
-const createProductValidation = (title, description, price, categories, stock) => {
+const productValidation = (title, description, price, categories, stock, isUpdate = false) => {
     let errors = [];
     const validTitle = !validator.isEmpty(title?.trim())
     const validDescription = !validator.isEmpty(description?.trim());
     const validPrice = !validator.isEmpty(price?.trim())
-    const validStock = !validator.isEmpty(stock?.trim())
+    const validStock = !isUpdate ? !validator.isEmpty(stock?.trim()) : true
 
     if (!validTitle) errors.push("Invalid title")
     if (!validDescription) errors.push('Invalid description')
@@ -117,14 +143,15 @@ const createProductValidation = (title, description, price, categories, stock) =
     if (categories.length === 0) errors.push("Invalid categories")
 
     return {
-        validTitle: title,
-        validDescription: description,
-        validPrice: price,
-        validCategories: categories,
-        validStock: stock,
+        validTitle: validator.escape(title),
+        validDescription: validator.escape(description),
+        validPrice: validator.escape(price),
+        validCategories: categories.map(category => validator.escape(category)),
+        validStock: !isUpdate ? validator.escape(stock) : null,
         errors
     }
 }
+
 
 const updateProductValidation = () => {
     const errors = [];

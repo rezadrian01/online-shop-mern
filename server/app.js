@@ -22,7 +22,7 @@ app
     .use(cors())
     .use(bodyParser.json())
     .use(jwtCheck)
-// .use(express.static(path.join(__dirname, 'images')));
+    .use(express.static(path.join(__dirname)));
 
 
 app.use('/auth', authRoutes);
