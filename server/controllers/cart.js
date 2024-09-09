@@ -32,3 +32,16 @@ exports.addCart = async (req, res, next) => {
         next(err)
     }
 }
+
+exports.getCart = async (req, res, next) => {
+    try {
+        const existingUser = await User.findById(req.userId)
+        if (!existingUser) errorResponse("User not found", 404)
+        const userCarts = await Cart.find({ userId: existingUser }).populate("productId").select("productId")
+        res.status(200).json({ success: true, message: "Success get cart", data: userCarts })
+
+    } catch (err) {
+        if (!err.statusCode) err.statusCode = 500
+        next(err)
+    }
+}
