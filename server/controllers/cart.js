@@ -12,20 +12,20 @@ exports.addCart = async (req, res, next) => {
         if (!existingUser) errorResponse("User not found", 404)
 
         existingCart = await Cart.findOne({ userId: existingUser, productId: existingProduct })
-        let updatedCart;
+        // let updatedCart;
         if (!existingCart) {
-            updatedCart = new Cart({
+            newCart = new Cart({
                 userId: req.userId,
                 productId: existingProduct,
                 quantity: 1
             })
+            const createdCart = await newCart.save()
+            existingUser.cart.push(existingProduct)
+            await existingUser.save()
         } else {
             existingCart.quantity += 1
-            updatedCart = existingCart
+            await existingCart.save()
         }
-        createdCart = await updatedCart.save()
-        existingUser.cart.push(createdCart)
-        await existingUser.save()
         res.status(200).json({ success: true, message: "Success add product to cart" })
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500
@@ -40,6 +40,33 @@ exports.getCart = async (req, res, next) => {
         const userCarts = await Cart.find({ userId: existingUser }).populate("productId").select("productId")
         res.status(200).json({ success: true, message: "Success get cart", data: userCarts })
 
+    } catch (err) {
+        if (!err.statusCode) err.statusCode = 500
+        next(err)
+    }
+}
+
+
+exports.removeCart = async (req, res, next) => {
+    try {
+        const { productId } = req.params;
+        const existingProduct = await Product.findById(productId);
+        const existingUser = await User.findById(req.userId)
+        if (!existingProduct) errorResponse("Product not found", 404)
+        if (!existingUser) errorResponse("User not found", 404)
+
+        const existingCart = await Cart.findOne({ userId: existingUser, productId: existingProduct })
+        if (!existingCart) errorResponse("Invalid cart")
+        if (existingCart.quantity > 1) {
+            existingCart.quantity -= 1
+            await existingCart.save()
+            res.status(200).json({ success: true, message: "Success update cart quantity" })
+        } else {
+            await existingUser.cart.pull(existingProduct)
+            await existingUser.save()
+            await Cart.findByIdAndDelete(existingCart._id.toString())
+            res.status(200).json({ success: true, message: "Success delete product form cart" })
+        }
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500
         next(err)
