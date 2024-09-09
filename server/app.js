@@ -12,7 +12,8 @@ const app = express();
 //router
 const authRoutes = require('./routes/auth');
 const productRoutes = require('./routes/product');
-const wishlistRoutes = require('./routes/wishlist')
+const wishlistRoutes = require('./routes/wishlist');
+const cartRoutes = require('./routes/cart')
 
 //midleware
 const { jwtCheck } = require('./middleware/auth')
@@ -27,7 +28,8 @@ app
 
 app.use('/auth', authRoutes);
 app.use('/products', productRoutes);
-app.use('/wishlist', wishlistRoutes)
+app.use('/wishlist', wishlistRoutes);
+app.use('/cart', cartRoutes)
 
 
 app.use((err, req, res, next) => {

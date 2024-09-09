@@ -48,8 +48,6 @@ exports.newProduct = async (req, res, next) => {
 
 
 exports.getProducts = async (req, res, next) => {
-    // let subRequest = req.query.subRequest;
-    // console.log(req.userId, req.isAuth);
     try {
         const products = await Product.find();
         const totalProducts = await Product.find().countDocuments();
@@ -83,7 +81,6 @@ exports.updateProduct = async (req, res, next) => {
         if (existingProduct.userId.toString() !== req.userId.toString()) errorResponse("Access denied", 403)
         const { title, description, price, categories, discount } = req.body;
         const { validTitle, validDescription, validPrice, validCategories, errors } = productValidation(title, description, price, categories, null, true)
-        // console.log(errors)
         if (errors.length > 0) errorResponse("Validation failed", 422, errors)
 
         existingProduct.title = validTitle;
