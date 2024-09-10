@@ -10,7 +10,7 @@ const TodaySelections = () => {
     const { data: products, isPending, isError, error } = useQuery({
         queryKey: ['today-selections'],
         queryFn: async () => {
-            const products = await apiInstance.get('products');
+            const products = await apiInstance.get('/products');
             return products.data
         }
     })

@@ -9,14 +9,16 @@ const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) =>
     const navigate = useNavigate()
     const ratings = product.reviews.reduce((prev, review) => prev + review.rating, 0);
     const totalStars = Math.round(ratings / product.reviews.length);
+    const discountAmount = product.price * (product.discount / 100)
+    const formatedPrice = (product.price - discountAmount).toFixed(2)
     return (
         <>
-            <div onClick={() => navigate(`/product/${product.id}`)} className='flex flex-col gap-1 group cursor-pointer'>
+            <div onClick={() => navigate(`/product/${product._id}`)} className='flex flex-col gap-1 group cursor-pointer'>
                 <div className='relative'>
-                    <img className='bg-stone-100 w-full aspect-square object-cover' src={product.images[0]} alt={product.title} loading='lazy' />
+                    <img className='bg-stone-100 w-full aspect-square object-cover' src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`} alt={product.title} loading='lazy' />
                     {/* Discount? */}
-                    {true && <div className='absolute left-2 top-2 bg-red-500 text-white py-[.2rem] px-[.4rem] text-[.7rem] rounded'>
-                        <p>-35%</p>
+                    {product.discount !== 0 && <div className='absolute left-2 top-2 bg-red-500 text-white py-[.2rem] px-[.4rem] text-[.7rem] rounded'>
+                        <p>{product.discount}%</p>
                     </div>}
                     <div className='absolute flex flex-col gap-2 right-2 top-2'>
                         <button className='rounded-full bg-white p-1'>
@@ -38,7 +40,7 @@ const ProductItem = ({ product, wishlist = false, visibleAddToCart = false }) =>
                 </div>
                 <div className='flex flex-col gap-2'>
                     <h3>{product.title}</h3>
-                    <p className='text-red-500 font-semibold'>${product.price}</p>
+                    <p className='text-red-500 font-semibold'>${product.discount > 0 ? formatedPrice : product.price}</p>
                     {!wishlist && <div className='relative flex items-center gap-1'>
                         {Array.from({ length: 5 }, (_, index) => {
                             return <FaStar
