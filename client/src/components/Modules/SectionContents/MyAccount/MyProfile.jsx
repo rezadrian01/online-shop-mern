@@ -30,10 +30,10 @@ const MyProfile = () => {
             }
             {!isPending && <div className='grid grid-cols-4 gap-y-6 gap-x-10 mt-4'>
                 <div className='col-span-4 lg:col-span-2'>
-                    <DefaultInput labelSemibold defaultValue={user.firstName} id='first-name' name='firstName' label='First Name' labelColor='inherit' required={false} />
+                    <DefaultInput labelSemibold defaultValue={user.firstName} id='name' name='name' label='Name' labelColor='inherit' required={false} />
                 </div>
                 <div className='col-span-4 lg:col-span-2'>
-                    <DefaultInput labelSemibold defaultValue={user.lastName} id='first-name' name='lastName' label='Last Name' labelColor='inherit' required={false} />
+                    <DefaultInput labelSemibold defaultValue={user.phone} id='phone' name='phone' label='Phone' labelColor='inherit' required={false} />
                 </div>
                 <div className='col-span-4 lg:col-span-2'>
                     <DefaultInput labelSemibold defaultValue={user.email} id='email' name='email' label='Email' labelColor='inherit' required={false} />

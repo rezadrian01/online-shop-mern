@@ -25,8 +25,7 @@ const userSchema = new Schema({
     ],
     address: [
         {
-            type: Schema.Types.ObjectId,
-            ref: "Address"
+            type: String
         }
     ],
     wishlist: [
