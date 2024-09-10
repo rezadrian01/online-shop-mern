@@ -21,11 +21,10 @@ const ProductDetailLayout = ({ productId }) => {
     const { data: product, isPending, isError, error } = useQuery({
         queryKey: ['product', { productId }],
         queryFn: async () => {
-            const product = await apiInstance.get(`products/${productId}`);
-            return product.data
+            const response = await apiInstance.get(`/products/${productId}`);
+            return response.data.product
         }
     })
-
     const { data: relatedItems, isLoading: isRelatedItemsLoading, isError: isRelatedItemsError, isError: relatedItemsError } = useQuery({
         queryKey: ['related-items', { productId }],
         queryFn: async () => {
@@ -42,12 +41,8 @@ const ProductDetailLayout = ({ productId }) => {
 
 
     if (isPending) return <DefaultLoading />
-
-    const images = genTempImgUrl();
-    images.unshift(product?.images[0]);
     const ratings = product.reviews.reduce((prev, review) => prev + review.rating, 0)
     const totalStars = Math.round(ratings / product.reviews.length)
-
 
     return (
         <div className='pb-20'>
@@ -55,23 +50,23 @@ const ProductDetailLayout = ({ productId }) => {
 
                 {/* product images */}
                 <div className='col-span-1 max-h-[40rem] hidden lg:flex flex-col gap-4 overflow-auto'>
-                    <EachUtils of={images} render={(item, index) => {
+                    <EachUtils of={product.images} render={(item, index) => {
                         return <div onClick={() => setSelectedImageIndex(index)} className='cursor-pointer flex justify-center' key={index}>
-                            <img className='w-3/4 aspect-square object-cover' src={item} alt={product.title} />
+                            <img className='w-3/4 aspect-square object-cover' src={`${import.meta.env.VITE_API_URL}/${item}`} alt={product.title} />
                         </div>
                     }} />
                 </div>
 
                 {/* product image */}
                 <div className='col-span-8 lg:col-span-4 max-h-[40rem]  flex justify-center'>
-                    <img className='h-full aspect-square object-cover' src={images[selectedImageIndex]} />
+                    <img className='h-full aspect-square object-cover' src={`${import.meta.env.VITE_API_URL}/${product.images[selectedImageIndex]}`} />
                 </div>
 
                 {/* product images mobile screen */}
                 <div className='col-span-8 flex gap-2 overflow-auto lg:hidden overflow-x-auto'>
-                    <EachUtils of={images} render={(item, index) => {
+                    <EachUtils of={product.images} render={(item, index) => {
                         return <div onClick={() => setSelectedImageIndex(index)} className='cursor-pointer flex justify-center' key={index}>
-                            <img className='h-20 min-w-20 object-cover' src={item} alt={product.title} />
+                            <img className='h-20 min-w-20 object-cover' src={`${import.meta.env.VITE_API_URL}/${item}`} alt={product.title} />
                         </div>
                     }} />
                 </div>
@@ -97,17 +92,17 @@ const ProductDetailLayout = ({ productId }) => {
                     <p>{product.description}</p>
                     <div className='w-full border border-stone-500 my-2' />
 
-                    {product.colors && <div className='flex gap-1 items-center'>
+                    {product?.colors && <div className='flex gap-1 items-center'>
                         <EachUtils of={product.colors} render={(item, index) => {
-                            return <div key={index} onClick={() => setSelectedColorIndex(index)} className={`border border-stone-500 rounded p-2 ${selectedColorIndex === index ? 'bg-red-500 text-white' : ''} `}>
+                            return <div key={index} onClick={() => setSelectedColorIndex(index)} className={`border border-stone-500 rounded p-2 ${selectedColorIndex === index ? 'bg-red-500 text-white' : ''} cursor-pointer `}>
                                 <p>{item}</p>
                             </div>
                         }} />
                     </div>}
 
-                    {product.sizes && <div className='flex gap-1 items-center'>
+                    {product?.sizes && <div className='flex gap-1 items-center'>
                         <EachUtils of={product.sizes} render={(item, index) => {
-                            return <div onClick={() => setSelectedSizeIndex(index)} className={`border border-stone-500 rounded p-2 ${selectedSizeIndex === index ? 'bg-red-500 text-white' : ''} `} key={index}>
+                            return <div onClick={() => setSelectedSizeIndex(index)} className={`border border-stone-500 rounded p-2 ${selectedSizeIndex === index ? 'bg-red-500 text-white' : ''} cursor-pointer `} key={index}>
                                 <p>{item}</p>
                             </div>
                         }} />
@@ -152,27 +147,13 @@ const ProductDetailLayout = ({ productId }) => {
                     </div>
                 </div>
             </div>
-
             {/* related items */}
-            {!isRelatedItemsLoading && <SectionLayout btn={false} title="Related Item" borderBottom={false}>
+            {!isRelatedItemsLoading && false && <SectionLayout btn={false} title="Related Item" borderBottom={false}>
                 <ProductList products={relatedItems} max={4} />
             </SectionLayout>}
+
         </div>
     )
-}
-
-const genTempImgUrl = () => {
-    return [
-        'https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/3945659/pexels-photo-3945659.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/2323435/pexels-photo-2323435.jpeg?auto=compress&cs=tinysrgb&w=800',
-        'https://images.pexels.com/photos/3593986/pexels-photo-3593986.jpeg?auto=compress&cs=tinysrgb&w=800'
-    ]
 }
 
 export default ProductDetailLayout
