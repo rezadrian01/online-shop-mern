@@ -11,7 +11,7 @@ const DefaultLayout = ({ children }) => {
     return (
         <>
             <Navbar />
-            <div className='w-full px-2 md:px-10 lg:px-14 xl:px-24' style={{ paddingLeft: paddingX, paddingRight: paddingX, minHeight }}>
+            <div className='w-full px-2 md:px-10 lg:px-14 xl:px-24 pb-44' style={{ paddingLeft: paddingX, paddingRight: paddingX, minHeight }}>
                 <Outlet />
                 {children}
             </div>

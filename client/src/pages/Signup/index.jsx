@@ -6,15 +6,32 @@ import DefaultButton from '@mods/Buttons/DefaultButton'
 import OutlineButton from '@mods/Buttons/OutlineButton'
 
 import googleLogo from '@/assets/auth/googleLogo.svg';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { apiInstance } from '@/utils/apiInstance'
 
 const Signup = () => {
+    const navigate = useNavigate();
+
+    const { mutate: signupFn, isPending: authPending, } = useMutation({
+        mutationFn: (authData) => {
+            return apiInstance('/auth/signup', {
+                data: {
+                    ...authData
+                },
+                method: "POST"
+            })
+        },
+        onSuccess: () => {
+            navigate('/signin')
+        }
+    })
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const fd = new FormData(event.target);
         const data = Object.fromEntries(fd.entries())
-        console.log(data)
+        signupFn(data)
     }
 
     const handleGoogleAuth = () => {
@@ -37,7 +54,7 @@ const Signup = () => {
                                 <AuthInput name='email' id='email' label='Email' />
                                 <AuthInput name='password' id='password' label='Password' />
                                 <div className='flex flex-col gap-4'>
-                                    <DefaultButton type="submit" >Create Account</DefaultButton>
+                                    <DefaultButton disabled={authPending} type="submit" >Create Account</DefaultButton>
                                     <OutlineButton type="button" onClick={handleGoogleAuth}>
                                         <img src={googleLogo} className='w-6' />
                                         <span>Sign up with Google</span>

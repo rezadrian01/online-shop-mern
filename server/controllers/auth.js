@@ -123,18 +123,18 @@ const signupValidation = (email, name, password, phone) => {
     const validEmail = validator.isEmail(sanitizedEmail);
     const validName = !validator.isEmpty(name);
     const validPassword = !validator.isEmpty(password);
-    const validPhone = !validator.isEmpty(phone);
+    // const validPhone = !validator.isEmpty(phone);
 
     if (!validEmail) errors.email = true;
     if (!validName) errors.name = true;
     if (!validPassword) errors.password = true;
-    if (!validPhone) errors.phone = true;
+    // if (!validPhone) errors.phone = true;
 
     return {
         validEmail: sanitizedEmail || null,
         validName: name || null,
         validPassword: password || null,
-        validPhone: phone || null,
+        // validPhone: phone || null,
         errors
     }
 

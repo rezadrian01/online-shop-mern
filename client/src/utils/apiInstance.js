@@ -1,5 +1,5 @@
 import axios from "axios"
 
 export const apiInstance = axios.create({
-    baseURL: 'https://dummyjson.com'
+    baseURL: `${import.meta.env.VITE_API_URL}`
 })

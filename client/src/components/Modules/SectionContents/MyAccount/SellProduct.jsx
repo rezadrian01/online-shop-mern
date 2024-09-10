@@ -16,8 +16,8 @@ const SellProduct = () => {
 
     const { mutate: createPost } = useMutation({
         mutationFn: (formData) => {
-            axios.post('http://localhost:8080/products/new', {
-                formData
+            apiInstance('/product/new', {
+
             })
         }
     })
@@ -40,7 +40,7 @@ const SellProduct = () => {
             setImages(prev => {
                 const updatedImages = [...prev];
                 updatedImages.push(reader.result);
-                return updatedImages
+                return updatedImages;
             })
         }
         reader.readAsDataURL(file)
@@ -53,10 +53,10 @@ const SellProduct = () => {
         const fd = new FormData(event.target);
         images.forEach(image => fd.append('images', image));
         categories.forEach(category => fd.append('categories', category))
-        // fd.append('categories', categories)
-        // const data = Object.fromEntries(fd.entries());
-        console.log([...fd]);
-        createPost(fd)
+        fd.append('categories', categories)
+        const data = Object.fromEntries(fd.entries());
+        console.log(data);
+        // createPost(fd)
     }
 
     return (
