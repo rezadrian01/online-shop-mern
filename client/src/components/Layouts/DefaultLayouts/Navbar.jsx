@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { GoSearch, GoHeart, GoPerson } from 'react-icons/go';
 import { IoCartOutline, IoMenuOutline } from "react-icons/io5";
@@ -10,15 +11,29 @@ import { MdOutlineCancel } from "react-icons/md";
 import { FaRegStar } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 
+import { authActions } from '@/store';
 import { LIST_NAVBAR } from '@/constants/listNavbar'
 import EachUtils from '@/utils/EachUtils'
 import { LIST_DROPDOWN_ACCOUNT_MENU } from '@/constants/listDropdownMenu';
+import { useQuery } from '@tanstack/react-query';
+import { apiInstance } from '@/utils/apiInstance';
 
 const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const isHomepage = location.pathname === '/';
     const [isOpenDropdownAccount, setIsOpenDropdownAccount] = useState(false);
+    const isAuth = useSelector(state => state.auth)
+
+    const { data: userData, isLoading: isLoadingUserData } = useQuery({
+        queryKey: ['user', { userId: isAuth.userId }],
+        queryFn: async () => {
+            const response = await apiInstance(`/user/${isAuth.userId}`)
+            console.log(response.data.data)
+            return response.data.data
+        },
+        enabled: (isAuth.token && isAuth.userId) ? true : false
+    })
 
     const toggleDropdownAccount = () => {
         setIsOpenDropdownAccount(!isOpenDropdownAccount)
@@ -46,34 +61,40 @@ const Navbar = () => {
                             <GoSearch className='absolute right-2 bottom-[.6rem] cursor-pointer' size={20} />
                         </button>
                     </div>
-                    <div className='col-span-3 flex gap-4 md:gap-10 lg:gap-4 mx-auto'>
-                        <button onClick={() => navigate('/wishlist')} className='relative'>
+                    {isAuth.token && <div className='col-span-3 flex  gap-4 md:gap-10 lg:gap-4 mx-auto'>
+                        <div className='relative'>
+                            <button onClick={() => navigate('/wishlist')} className=''>
                             <GoHeart
                                 size={23}
                                 className='mx-auto'
-                            />
-                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>4</div>
+                                />
+                                {userData?.wishlist?.length > 0 && <div className='w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>4</div>}
                         </button>
-                        <button onClick={() => navigate('/cart')} className='relative'>
-                            <IoCartOutline size={23} className='mx-auto' />
-                            <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>
+                        </div>
+                        <div className='relative'>
+                            <button onClick={() => navigate('/cart')} className=''>
+                                <IoCartOutline size={23} className='mx-auto ' />
+                                {userData?.cart?.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>}
                         </button>
+                        </div>
                         {/* render conditionaly */}
+
                         <div className='relative'>
                             <button onClick={toggleDropdownAccount}>
-                                <VscAccount size={23} />
+                                <VscAccount size={23} className='' />
                             </button>
                             {isOpenDropdownAccount && <>
                                 <div onClick={() => setIsOpenDropdownAccount(false)} className='fixed inset-0 z-20' />
                                 <div className='absolute bg-gray-900/30 backdrop-blur-md text-slate-50 z-20 right-0 top-10 py-3 px-4 rounded flex flex-col gap-4 w-[14rem] text-sm'>
                                     <EachUtils of={LIST_DROPDOWN_ACCOUNT_MENU} render={(item, index) => {
-                                        return <DropdownAccountContent index={index} item={item} />
+                                        return <DropdownAccountContent index={index} item={item} closeDropdown={toggleDropdownAccount} />
                                     }} />
                                 </div>
                             </>
                             }
                         </div>
-                    </div>
+                    </div>}
+
                 </div>
                 {/* mobile screen */}
                 <ul className='col-span-3 flex lg:hidden gap-2 lg:gap-16 justify-evenly mt-2'>
@@ -90,7 +111,8 @@ const Navbar = () => {
 
 export default Navbar
 
-const DropdownAccountContent = ({ item, index }) => {
+const DropdownAccountContent = ({ item, index, closeDropdown }) => {
+    const dispatch = useDispatch();
     let logo;
     switch (index) {
         case 0:
@@ -111,6 +133,10 @@ const DropdownAccountContent = ({ item, index }) => {
     }
     return <div className='flex gap-5 items-center'>
         {logo}
-        <a href={item.url}>{item.title}</a>
+        {index !== 4 && <a className='w-full text-left' href={item.url}>{item.title}</a>}
+        {index === 4 && <button className='w-full text-left' onClick={() => {
+            closeDropdown()
+            dispatch(authActions.signout())
+        }} >{item.title}</button>}
     </div>
 }

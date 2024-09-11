@@ -5,13 +5,17 @@ import AuthInput from '@mods/AuthInput'
 import DefaultButton from '@mods/Buttons/DefaultButton'
 import OutlineButton from '@mods/Buttons/OutlineButton'
 
+import { authActions } from '@/store'
+import { useDispatch } from 'react-redux'
+
 import googleLogo from '@/assets/auth/googleLogo.svg';
-import { Link, useNavigate } from 'react-router-dom'
-import { useMutation } from '@tanstack/react-query'
-import { apiInstance } from '@/utils/apiInstance'
+import { Link, useNavigate } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
+import { apiInstance } from '@/utils/apiInstance';
 
 const Signin = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const { mutate: signinFn, isPending: authPending } = useMutation({
         mutationFn: (authData) => {
@@ -24,8 +28,9 @@ const Signin = () => {
         },
         onSuccess: (response) => {
             const { token, userId } = response.data;
-            localStorage.setItem("token", token)
-            localStorage.setItem('userId', userId)
+            localStorage.setItem("token", token);
+            localStorage.setItem('userId', userId);
+            dispatch(authActions.signin())
             navigate('/')
         }
     })
