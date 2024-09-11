@@ -5,6 +5,7 @@ const { errorResponse } = require('../utils/error')
 
 exports.addCart = async (req, res, next) => {
     try {
+        //can add product with multiple quantity
         const { productId } = req.params
         const existingProduct = await Product.findById(productId)
         const existingUser = await User.findById(req.userId)

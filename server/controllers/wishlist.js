@@ -35,8 +35,9 @@ exports.getWishlist = async (req, res, next) => {
         const existingUser = await User.findById(req.userId);
         if (!existingUser) errorResponse("User not found", 404);
 
-        const products = await Wishlist.find({ userId: existingUser._id });
-        res.status(200).json({ success: true, message: "Success get wishlist", products })
+        const products = await Wishlist.find({ userId: existingUser._id }).populate('productId').select('productId');
+        const transformedData = products.map(product => ({ ...product.productId._doc }))
+        res.status(200).json({ success: true, message: "Success get wishlist", products: transformedData })
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500;
         next(err)

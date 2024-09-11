@@ -50,6 +50,20 @@ const ProductDetailLayout = ({ productId }) => {
         }
     })
 
+    const { mutate: addCart } = useMutation({
+        mutationFn: () => {
+            return apiInstance(`/cart/${productId}`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `bearer ${authData.token}`
+                }
+            })
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['user', { userId: authData.userId }] })
+        }
+    })
+
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -141,7 +155,7 @@ const ProductDetailLayout = ({ productId }) => {
                         <button onClick={() => addWishlist()} className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
                             <GoHeart size={20} />
                         </button>
-                        <button className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
+                        <button onClick={() => addCart()} className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
                             <IoCartOutline size={20} />
                         </button>
                         <div className='col-span-8 border-[1.5px] border-stone-700 rounded flex flex-col font-semibold mt-6'>

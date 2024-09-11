@@ -23,15 +23,15 @@ const Navbar = () => {
     const location = useLocation();
     const isHomepage = location.pathname === '/';
     const [isOpenDropdownAccount, setIsOpenDropdownAccount] = useState(false);
-    const isAuth = useSelector(state => state.auth)
+    const authData = useSelector(state => state.auth)
 
     const { data: userData, isLoading: isLoadingUserData } = useQuery({
-        queryKey: ['user', { userId: isAuth.userId }],
+        queryKey: ['user', { userId: authData.userId }],
         queryFn: async () => {
-            const response = await apiInstance(`/user/${isAuth.userId}`)
+            const response = await apiInstance(`/user/${authData.userId}`)
             return response.data.data
         },
-        enabled: (isAuth.token && isAuth.userId) ? true : false
+        enabled: (authData.token && authData.userId) ? true : false
     })
 
     const toggleDropdownAccount = () => {
@@ -74,7 +74,7 @@ const Navbar = () => {
                         <div className='relative'>
                             <button onClick={() => navigate('/cart')} className=''>
                                 <IoCartOutline size={23} className='mx-auto ' />
-                                {userData?.cart?.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>1</div>}
+                                {userData?.cart?.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>{userData.cart.length}</div>}
                         </button>
                         </div>
                         {/* render conditionaly */}
