@@ -37,7 +37,7 @@ const userSchema = new Schema({
     cart: [
         {
             type: Schema.Types.ObjectId,
-            ref: "Product"
+            ref: "Cart"
         }
     ],
     order: [

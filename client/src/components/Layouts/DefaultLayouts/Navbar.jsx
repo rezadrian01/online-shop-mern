@@ -29,7 +29,6 @@ const Navbar = () => {
         queryKey: ['user', { userId: isAuth.userId }],
         queryFn: async () => {
             const response = await apiInstance(`/user/${isAuth.userId}`)
-            console.log(response.data.data)
             return response.data.data
         },
         enabled: (isAuth.token && isAuth.userId) ? true : false
@@ -38,6 +37,7 @@ const Navbar = () => {
     const toggleDropdownAccount = () => {
         setIsOpenDropdownAccount(!isOpenDropdownAccount)
     }
+    // console.log(userData?.wishlist)
 
     return (
         <header>
@@ -61,14 +61,14 @@ const Navbar = () => {
                             <GoSearch className='absolute right-2 bottom-[.6rem] cursor-pointer' size={20} />
                         </button>
                     </div>
-                    {isAuth.token && <div className='col-span-3 flex  gap-4 md:gap-10 lg:gap-4 mx-auto'>
+                    {!isLoadingUserData && <div className='col-span-3 flex  gap-4 md:gap-10 lg:gap-4 mx-auto'>
                         <div className='relative'>
                             <button onClick={() => navigate('/wishlist')} className=''>
                             <GoHeart
                                 size={23}
                                 className='mx-auto'
                                 />
-                                {userData?.wishlist?.length > 0 && <div className='w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>4</div>}
+                                {userData.wishlist.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>{userData.wishlist.length}</div>}
                         </button>
                         </div>
                         <div className='relative'>

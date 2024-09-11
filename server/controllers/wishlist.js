@@ -11,13 +11,18 @@ exports.addWishlist = async (req, res, next) => {
         if (!existingProduct) errorResponse('Product not found', 404);
         const existingUser = await User.findById(req.userId);
         if (!existingUser) errorResponse('User not found', 404);
-        const newwishlist = new Wishlist({
+        const existingProductIndex = existingUser.wishlist.findIndex(item => item.toString() === productId);
+        if (existingProductIndex !== -1) {
+            res.status(200).json({ success: true, message: "Product is already in wishlist" })
+            return
+        }
+        const newWishlist = new Wishlist({
             productId: existingProduct._id,
             userId: existingUser._id
         })
         existingUser.wishlist.push(existingProduct);
         await existingUser.save();
-        await newwishlist.save();
+        await newWishlist.save();
         res.status(201).json({ success: true, message: "Success add wishlist" })
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import DefaultLoading from '@/components/Modules/Loading/DefaultLoading';
 import { apiInstance } from '@/utils/apiInstance';
@@ -13,6 +13,8 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { LuRefreshCcw } from "react-icons/lu";
 import SectionLayout from '@/components/Layouts/SectionLayouts';
 import ProductList from '@/components/Modules/ProductList';
+import { queryClient } from '@/utils/query';
+import { useSelector } from 'react-redux';
 
 
 
@@ -33,6 +35,21 @@ const ProductDetailLayout = ({ productId }) => {
         },
         enabled: product?.category ? true : false
     })
+    const authData = useSelector(state => state.auth)
+    const { mutate: addWishlist } = useMutation({
+        mutationFn: () => {
+            return apiInstance(`/wishlist/add/${productId}`, {
+                method: "POST",
+                headers: {
+                    'Authorization': `bearer ${authData.token}`
+                }
+            })
+        },
+        onSettled: () => {
+            queryClient.invalidateQueries({ queryKey: ['user', { userId: authData.userId }] })
+        }
+    })
+
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     const [selectedColorIndex, setSelectedColorIndex] = useState(0);
@@ -121,7 +138,7 @@ const ProductDetailLayout = ({ productId }) => {
                         <div className='col-span-4'>
                             <button className='text-white bg-red-500 hover:bg-red-600 py-2 w-full rounded'>Buy Now</button>
                         </div>
-                        <button className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
+                        <button onClick={() => addWishlist()} className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
                             <GoHeart size={20} />
                         </button>
                         <button className='col-span-2 md:col-span-1 border-[1.5px] border-stone-700 flex justify-center items-center h-9 rounded'>
