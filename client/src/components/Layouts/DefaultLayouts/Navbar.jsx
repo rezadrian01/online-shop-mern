@@ -68,7 +68,7 @@ const Navbar = () => {
                                 size={23}
                                 className='mx-auto'
                                 />
-                                {userData.wishlist.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>{userData.wishlist.length}</div>}
+                                {userData?.wishlist?.length > 0 && <div className='bg-red-500 w-4 flex justify-center items-center aspect-square rounded-full absolute -right-2 -top-1 text-[.6rem] text-white'>{userData.wishlist.length}</div>}
                         </button>
                         </div>
                         <div className='relative'>

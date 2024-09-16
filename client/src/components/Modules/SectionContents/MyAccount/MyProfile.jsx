@@ -4,13 +4,15 @@ import { useQuery } from '@tanstack/react-query'
 import { apiInstance } from '@/utils/apiInstance'
 import DefaultLoading from '../../Loading/DefaultLoading'
 import DefaultButton from '../../Buttons/DefaultButton'
+import { useSelector } from 'react-redux'
 
 const MyProfile = () => {
+    const authData = useSelector(state => state.auth)
     const { data: user, isPending, isError, error } = useQuery({
-        queryKey: ['my-account'],
+        queryKey: ['user', { userId: authData.userId }],
         queryFn: async () => {
-            const user = await apiInstance.get('users/1');
-            return user.data
+            const user = await apiInstance.get(`user/${authData.userId}`);
+            return user.data.data
         }
     })
 

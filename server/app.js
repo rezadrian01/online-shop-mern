@@ -6,6 +6,7 @@ const cors = require('cors');
 const path = require('path')
 
 config();
+const VERSION = '/api/v1'
 
 const app = express();
 
@@ -28,12 +29,12 @@ app
     .use(express.static(path.join(__dirname)));
 
 
-app.use('/auth', authRoutes);
-app.use('/products', productRoutes);
-app.use('/wishlist', wishlistRoutes);
-app.use('/cart', cartRoutes);
-app.use('/user', userRoutes);
-app.use('/order', orderRoutes);
+app.use(`${VERSION}/auth`, authRoutes);
+app.use(`${VERSION}/products`, productRoutes);
+app.use(`${VERSION}/wishlist`, wishlistRoutes);
+app.use(`${VERSION}/cart`, cartRoutes);
+app.use(`${VERSION}/user`, userRoutes);
+app.use(`${VERSION}/order`, orderRoutes);
 
 
 app.use((err, req, res, next) => {

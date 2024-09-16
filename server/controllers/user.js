@@ -10,7 +10,6 @@ exports.getUser = async (req, res, next) => {
         if (!existingUser) errorResponse("User not found", 404)
         res.status(200).json({
             success: true, message: "Success get user data", data: existingUser
-
         })
     } catch (err) {
         if (!err.statusCode) err.statusCode = 500
