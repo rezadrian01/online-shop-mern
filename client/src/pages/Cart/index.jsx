@@ -6,19 +6,24 @@ import DefaultButton from '@mods/Buttons/DefaultButton'
 import DefaultLoading from '@mods/Loading/DefaultLoading'
 import { apiInstance } from '@/utils/apiInstance'
 import EachUtils from '@/utils/EachUtils'
+import { useSelector } from 'react-redux'
 
 const Cart = () => {
     const navigate = useNavigate();
+    const authData = useSelector(state => state.auth)
     const { data: products, isPending, isError, error } = useQuery({
-        queryKey: ['cart'],
+        queryKey: ['cart-user', { userId: authData.userId }],
         queryFn: async () => {
-            const products = await apiInstance.get('products?limit=3&skip=40&select=title,images,price,id');
-            return products.data.products
+            const response = await apiInstance('cart', {
+                headers: {
+                    'Authorization': `bearer ${authData.token}`
+                }
+            });
+            return response.data.data
         }
     })
-    // console.log(products)
-    const subTotal = products ? products.reduce((prev, product) => {
-        return prev + product.price * 3 //quantity
+    const subTotal = products ? products?.reduce((prev, product) => {
+        return prev + product.price * product.quantity
     }, 0) : 0;
     const shipping = 0;
     return (
@@ -42,12 +47,12 @@ const Cart = () => {
                                 </td>
                             </tr>}
                             {!isPending && products.map(product => {
-                                const quantity = 4;
+                                const quantity = product.quantity;
                                 const subTotal = product.price * quantity;
-                                return <tr className='shadow-md rounded-md' key={product.id}>
-                                    <td className='p-4 '>
+                                return <tr className='shadow-md rounded-md' key={product._id}>
+                                    <td className='p-6'>
                                         <div className='flex items-center gap-2'>
-                                            <img className='w-10 lg:w-24 aspect-square object-cover' src={product.images[0]} alt={product.title} />
+                                            <img className='w-16 lg:w-24 aspect-square object-cover rounded' src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`} alt={product.title} />
                                             <Link to={`/product/${product.id}`}>
                                                 <h4 className='font-semibold'>{product.title}</h4>
                                             </Link>
@@ -65,10 +70,10 @@ const Cart = () => {
                 </div>
 
                 {/* mobile screen */}
-                <div className=' md:hidden w-full flex flex-col gap-4'>
+                <div className=' md:hidden w-full flex flex-col gap-6'>
                     {isPending && <DefaultLoading />}
                     {!isPending && <EachUtils of={products} render={(product, index) => {
-                        const quantity = 4;
+                        const quantity = product.quantity;
                         const subTotal = product.price * quantity;
                         return <div key={index} className='bg-white p-4 rounded-lg shadow-md flex justify-between'>
                             <div>
@@ -81,7 +86,7 @@ const Cart = () => {
                                 </h4>
                                 <h4><span className='font-semibold'>Subtotal: </span>{subTotal}</h4>
                             </div>
-                            <img className='max-w-20 aspect-square object-cover' src={product.images[0]} alt={product.title} />
+                            <img className='max-w-20 aspect-square object-cover rounded' src={`${import.meta.env.VITE_API_URL}/${product.images[0]}`} alt={product.title} />
 
                         </div>
                     }} />}
