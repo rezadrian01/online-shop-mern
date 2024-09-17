@@ -10,10 +10,8 @@ exports.newProduct = async (req, res, next) => {
     try {
         const { title, description, price, categories, stock } = req.body;
         const { validTitle, validDescription, validPrice, validCategories, validStock, errors } = productValidation(title, description, price, categories, stock)
-
-        if (!req.files) errorResponse("Image must be uploaded", 422);
+        if (!req?.files || req?.files?.length === 0) errorResponse("Image must be uploaded", 422);
         if (errors.length > 0) errorResponse("Validation failed", 422, errors);
-
         const existingUser = await User.findById(req.userId);
         if (!existingUser) errorResponse('User not found', 404);
 
@@ -29,7 +27,7 @@ exports.newProduct = async (req, res, next) => {
             categories: validCategories,
             images,
             stock: validStock,
-            discount: req.body.discount || 0,
+            discount: 0,
             userId: existingUser,
             sizes: req.body.sizes || [],
             colors: req.body.colors || []
@@ -128,17 +126,16 @@ exports.deleteProduct = async (req, res, next) => {
 
 const productValidation = (title, description, price, categories, stock, isUpdate = false) => {
     let errors = [];
-    const validTitle = !validator.isEmpty(title?.trim())
-    const validDescription = !validator.isEmpty(description?.trim());
-    const validPrice = !validator.isEmpty(price?.trim())
-    const validStock = !isUpdate ? !validator.isEmpty(stock?.trim()) : true
+    const validTitle = !validator.isEmpty(title[0]?.trim())
+    const validDescription = !validator.isEmpty(description[0]?.trim());
+    const validPrice = !validator.isEmpty(price[0]?.trim())
+    const validStock = !isUpdate ? !validator.isEmpty(stock[0]?.trim()) : true
 
     if (!validTitle) errors.push("Invalid title")
     if (!validDescription) errors.push('Invalid description')
     if (!validPrice) errors.push("Invalid price")
     if (!validStock) errors.push("Invalid stock")
     if (categories.length === 0) errors.push("Invalid categories")
-
     return {
         validTitle: validator.escape(title),
         validDescription: validator.escape(description),

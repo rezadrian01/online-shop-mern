@@ -24,9 +24,9 @@ const { jwtCheck } = require('./middleware/auth')
 
 app
     .use(cors())
-    .use(bodyParser.json())
     .use(jwtCheck)
-    .use(express.static(path.join(__dirname)));
+    .use(express.static(path.join(__dirname)))
+    .use(bodyParser.json({ limit: '50mb' }))
 
 
 app.use(`${VERSION}/auth`, authRoutes);

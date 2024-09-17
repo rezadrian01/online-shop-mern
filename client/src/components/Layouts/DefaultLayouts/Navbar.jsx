@@ -49,6 +49,7 @@ const Navbar = () => {
                 </div>
                 <ul className=' lg:col-span-7 hidden lg:flex gap-2 lg:gap-16 justify-center'>
                     <EachUtils of={LIST_NAVBAR} render={(item, index) => {
+                        if (authData?.userId && index === 3) return
                         return <li className={`text-base lg:text-lg relative pb-1`} key={index}><Link to={item.url}>{item.title}</Link>
                             {location.pathname === item.url && <motion.span layoutId='navbar-menu' className='absolute inset-x-0 border border-stone-800 bottom-0' />}
                         </li>
@@ -99,6 +100,7 @@ const Navbar = () => {
                 {/* mobile screen */}
                 <ul className='col-span-3 flex lg:hidden gap-2 lg:gap-16 justify-evenly mt-2'>
                     <EachUtils of={LIST_NAVBAR} render={(item, index) => {
+                        if (authData?.userId && index === 3) return
                         return <li className={`text-base lg:text-lg relative pb-1`} key={index}><Link to={item.url}>{item.title}</Link>
                             {location.pathname === item.url && <motion.span layoutId='navbar-menu-mobile' className='absolute inset-x-0 border border-stone-800 bottom-0' />}
                         </li>

@@ -13,8 +13,11 @@ import DefaultModal, { SidebarModal } from '@/components/Modules/Modal'
 import SellProduct from '@/components/Modules/SectionContents/MyAccount/SellProduct'
 
 const MyAccount = () => {
-    const [selectedMenu, setSelectedMenu] = useState('My Profile')
+    const [selectedMenu, setSelectedMenu] = useState('My Profile');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const resetMenu = () => {
+        setSelectedMenu("My Profile")
+    }
     return (
         <div className='relative grid grid-cols-8 gap-x-4 gap-y-20 pt-6 lg:pt-10 pb-24'>
             {/*<div className='flex justify-end col-span-8'>
@@ -28,7 +31,7 @@ const MyAccount = () => {
                 <Navigation selectedMenu={selectedMenu} setSelectedMenu={setSelectedMenu} />
             </div>
             <div className='col-span-8 lg:col-span-6 border rounded-lg px-2 lg:px-16 py-6 shadow-md'>
-                <CurrentContent selectedMenu={selectedMenu} />
+                <CurrentContent resetMenu={resetMenu} selectedMenu={selectedMenu} />
             </div>
         </div>
     )
@@ -51,7 +54,7 @@ const Navigation = ({ selectedMenu, setSelectedMenu }) => {
     </div>
 }
 
-const CurrentContent = ({ selectedMenu }) => {
+const CurrentContent = ({ selectedMenu, resetMenu }) => {
     let content;
     switch (selectedMenu) {
         case 'My Profile':
@@ -73,7 +76,7 @@ const CurrentContent = ({ selectedMenu }) => {
             content = <MyCancellations />
             break;
         case 'Sell Product':
-            content = <SellProduct />
+            content = <SellProduct resetMenu={resetMenu} />
             break;
     }
     return <>

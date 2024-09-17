@@ -8,17 +8,29 @@ import DefaultButton from '../../Buttons/DefaultButton';
 import { useMutation } from '@tanstack/react-query';
 import { apiInstance } from '@/utils/apiInstance';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-const SellProduct = () => {
+const SellProduct = ({ resetMenu }) => {
     const categoryRef = useRef(null)
     const [categories, setCategories] = useState([]);
     const [images, setImages] = useState([]);
+    const [imageFiles, setImageFiles] = useState([])
 
+    const authData = useSelector(state => state.auth)
     const { mutate: createPost } = useMutation({
         mutationFn: (formData) => {
-            apiInstance('/product/new', {
+            return apiInstance('products/new', {
+                method: "POST",
+                headers: {
+                    'Authorization': `bearer ${authData.token}`
+                },
+                data:
+                    formData
 
             })
+        },
+        onSuccess: () => {
+            resetMenu()
         }
     })
 
@@ -33,30 +45,29 @@ const SellProduct = () => {
     }
 
     const addImage = (event) => {
-        const file = event.target.files[0]
-        const reader = new FileReader();
-        if (!file.type.startsWith('image/')) return;
-        reader.onload = () => {
-            setImages(prev => {
-                const updatedImages = [...prev];
-                updatedImages.push(reader.result);
-                return updatedImages;
-            })
-        }
-        reader.readAsDataURL(file)
+        const files = Array.from(event.target.files)
+        files.forEach(file => {
+            setImageFiles(prev => [...prev, file])
+            const reader = new FileReader();
+            if (!file.type.startsWith('image/')) return;
 
-
+            reader.onload = () => {
+                setImages(prev => {
+                    const updatedImages = [...prev];
+                    updatedImages.push(reader.result);
+                    return updatedImages;
+                })
+            }
+            reader.readAsDataURL(file)
+        })
     }
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const fd = new FormData(event.target);
-        images.forEach(image => fd.append('images', image));
-        categories.forEach(category => fd.append('categories', category))
-        fd.append('categories', categories)
-        const data = Object.fromEntries(fd.entries());
-        console.log(data);
-        // createPost(fd)
+        imageFiles.forEach(image => fd.append('images', image))
+        categories.forEach(category => fd.append('categories', category));
+        createPost(fd)
     }
 
     return (
@@ -67,10 +78,10 @@ const SellProduct = () => {
                     <DefaultInput name='title' placeholder='Product Title' id='price' />
                 </div>
                 <div className='col-span-1'>
-                    <DefaultInput name='price' placeholder='Price' id='price' type='number' min={0} />
+                    <DefaultInput name='price' placeholder='Price' id='price' type='number' min={0} step="0.01" />
                 </div>
                 <div className='col-span-1'>
-                    <DefaultInput name='quantity' placeholder='Quantity' id='quantity' type='number' />
+                    <DefaultInput name='stock' placeholder='Stock' id='stock' type='number' />
                 </div>
                 <div className='col-span-4'>
                     <DefaultInput name='description' placeholder='Description' id='description' textarea />
